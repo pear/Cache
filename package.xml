@@ -23,11 +23,12 @@ between applications.
   </maintainers>
   <license>PHP License</license>
   <release>
-    <version>1.5.4-dev</version>
-    <date>2003-XX-XX</date>
+    <version>1.5.4</version>
+    <date>2004-04-01</date>
     <state>stable</state>
     <notes>
 - Removed Cache_DB as it apparently never really worked.
+- Added trifile container. See http://atomized.org/PEAR/Cache_trifile.html for more information. (By Ian Eure) 
     </notes>
     <filelist>
       <dir name="/" baseinstalldir="Cache">
@@ -49,6 +50,7 @@ between applications.
           <file role="php" name="msession.php" />
           <file role="php" name="phplib.php" />
           <file role="php" name="shm.php" />
+          <file role="php" name="trifile.php" />
         </dir>
       </dir>
     </filelist>

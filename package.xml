@@ -15,6 +15,7 @@
       <email>chregu@php.net</email>
     </maintainer>
   </maintainers>
+ <license>PHP License</license>
  <release>
   <version>1.2</version>
   <date>2002-01-20</date>

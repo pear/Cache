@@ -13,7 +13,7 @@
 // | license@php.net so we can mail you a copy immediately.               |
 // +----------------------------------------------------------------------+
 // | Authors: Ulf Wendel <ulf.wendel@phpdoc.de>                           |
-// |          Christian Stocker <chregu@nomad.ch>                         |
+// |          Christian Stocker <chregu@phant.ch>                         |
 // +----------------------------------------------------------------------+
 
 require_once 'Cache/Output.php';
@@ -51,7 +51,7 @@ require_once 'Cache/Output.php';
 * Based upon a case study from Christian Stocker and inspired by jpcache.
 *
 * @version  $Id$
-* @author   Ulf Wendel <ulf.wendel@phpdoc.de>, Christian Stocker <chregu@nomad.ch>
+* @author   Ulf Wendel <ulf.wendel@phpdoc.de>, Christian Stocker <chregu@phant.ch>
 * @access   public
 * @package  Cache
 */

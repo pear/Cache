@@ -13,7 +13,7 @@
 // | license@php.net so we can mail you a copy immediately.               |
 // +----------------------------------------------------------------------+
 // | Authors: Ulf Wendel <ulf.wendel@phpdoc.de>                           |
-// |          Christian Stocker <chregu@nomad.ch>                         |
+// |          Christian Stocker <chregu@phant.ch>                         |
 // |          Vinai Kopp <kopp@netzarbeiter.de>                           |
 // +----------------------------------------------------------------------+
 //

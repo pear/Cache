@@ -12,7 +12,7 @@
 // | obtain it through the world-wide-web, please send a note to          |
 // | license@php.net so we can mail you a copy immediately.               |
 // +----------------------------------------------------------------------+
-// | Authors: Christian Stocker <chregu@nomad.ch>                         |
+// | Authors: Christian Stocker <chregu@phant.ch>                         |
 // +----------------------------------------------------------------------+
 //
 // $Id$
@@ -49,7 +49,7 @@ require_once 'Cache/Container.php';
 *   PRIMARY KEY (id, cachegroup)
 * )
 *
-* @author   Christian Stocker <chregu@nomad.ch>
+* @author   Christian Stocker <chregu@phant.ch>
 * @version  $Id$
 * @package  Cache
 */

@@ -60,7 +60,7 @@ class Cache_OutputCompression extends Cache_Output {
     /**
     * Encoding, what the user (its browser) of your website accepts
     * 
-    * "auto" stands for test using $HTTP_ACCEPT_ENCODING.
+    * "auto" stands for test using $_SERVER['HTTP_ACCEPT_ENCODING']($HTTP_ACCEPT_ENCODING).
     *
     * @var  string
     * @see  Cache_OutputCompression(), setEncoding()
@@ -174,10 +174,9 @@ class Cache_OutputCompression extends Cache_Output {
     * 
     * @param    string
     * @access   public
-    * @global   $HTTP_SERVER_VARS
     */    
     function printContent($content = '') {
-        global $HTTP_SERVER_VARS;
+        $server = &$this->_importGlobalVariable("server");
 
         if ('' == $content)
             $content = &$this->container->cachedata;
@@ -186,7 +185,7 @@ class Cache_OutputCompression extends Cache_Output {
    
             $etag = 'PEAR-Cache-' . md5(substr($content, -40));
             header("ETag: $etag");
-            if (isset($HTTP_SERVER_VARS['HTTP_IF_NONE_MATCH']) && strstr(stripslashes($HTTP_SERVER_VARS['HTTP_IF_NONE_MATCH']), $etag)) {
+            if (isset($server['HTTP_IF_NONE_MATCH']) && strstr(stripslashes($server['HTTP_IF_NONE_MATCH']), $etag)) {
                 // not modified
                 header('HTTP/1.0 304');
                 return;
@@ -229,20 +228,19 @@ class Cache_OutputCompression extends Cache_Output {
     /**
     * Returns the encoding to be used for the data transmission to the client.
     *
-    * @global   $HTTP_ACCEPT_ENCODING
     * @see      setEncoding()
     */    
     function getEncoding() {
-        global $HTTP_ACCEPT_ENCODING;
-        
+        $server = &$this->_importGlobalVariable("server");
+
         // encoding set by user    
         if ('auto' != $this->encoding)
             return $this->encoding;
         
         // check what the client accepts
-        if (false !== strpos($HTTP_ACCEPT_ENCODING, 'x-gzip'))
+        if (false !== strpos($server['HTTP_ACCEPT_ENCODING'], 'x-gzip'))
             return 'x-gzip';
-        if (false !== strpos($HTTP_ACCEPT_ENCODING, 'gzip'))
+        if (false !== strpos($server['HTTP_ACCEPT_ENCODING'], 'gzip'))
             return 'gzip';
             
         // no compression
@@ -250,6 +248,54 @@ class Cache_OutputCompression extends Cache_Output {
         
     } // end func getEncoding
 
- 
+    // {{{ _importGlobalVariable()
+
+    /**
+     * Import variables from special namespaces.
+     *
+     * @access private
+     * @param string Type of variable (server, session, post)
+     * @return array
+     */
+    function &_importGlobalVariable($variable) 
+    {
+      
+        $var = null;
+
+        switch (strtolower($variable)) {
+
+            case "server" :
+                if (isset($_SERVER)) {
+                    $var = &$_SERVER;
+                } else {
+                    $var = &$GLOBALS['HTTP_SERVER_VARS'];
+                }
+                break;
+
+            case "session" :
+                if (isset($_SESSION)) {
+                    $var = &$_SESSION;
+                } else {
+                    $var = &$GLOBALS['HTTP_SESSION_VARS'];
+                }
+                break;
+
+            case "post" :
+                if (isset($_POST)) {
+                    $var = &$_POST;
+                } else {
+                    $var = &$GLOBALS['HTTP_POST_VARS'];
+                }
+                break;
+
+            default:
+                break;
+
+        }
+
+        return $var;
+    } 
+
+    // }}
 } // end class OutputCompression
 ?>

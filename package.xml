@@ -16,34 +16,6 @@
     </maintainer>
   </maintainers>
  <release>
-  <version>1.1</version>
-  <date>2001-03-27</date>
-  <notes>
-   Stable Code, SHM implementation missing
-  </notes>
-  <filelist>
-   <dir name="/" baseinstalldir="Cache">
-     <file role="php">Application.php</file>
-     <file role="php">Cache.php</file>
-     <file role="php">Container.php</file>
-     <file role="php">DB.php</file>
-     <file role="php">Error.php</file>
-     <file role="php">Function.php</file>
-     <file role="php">Graphics.php</file>
-     <file role="php">Output.php</file>
-     <file role="php">OutputCompression.php</file>
-   </dir>
-   <dir name="Container/" baseinstalldir="Cache">
-     <file role="php">db.php</file>
-     <file role="php">dbx.php</file>
-     <file role="php">file.php</file>
-     <file role="php">msession.php</file>
-     <file role="php">phplib.php</file>
-     <file role="php">shm.php</file>
-   </dir>
-  </filelist>
- </release>
- <release>
   <version>1.2</version>
   <date>2002-01-20</date>
   <notes>
@@ -61,7 +33,7 @@
      <file role="php">Output.php</file>
      <file role="php">OutputCompression.php</file>
    </dir>
-   <dir name="Container/" baseinstalldir="Cache">
+   <dir name="Container">
      <file role="php">db.php</file>
      <file role="php">dbx.php</file>
      <file role="php">file.php</file>
@@ -71,4 +43,13 @@
    </dir>
   </filelist>
  </release>
+ <changelog>
+  <release>
+   <version>1.1</version>
+   <date>2001-03-27</date>
+   <notes>
+    Stable Code, SHM implementation missing
+   </notes>
+  </release>
+ </changelog>
 </package>

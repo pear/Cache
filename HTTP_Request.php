@@ -18,15 +18,14 @@
 //
 // $Id$
 
-require_once("Cache/Cache.php");
-require_once("Cache/Error.php");
-require_once("HTTP/Request.php");
+require_once 'Cache.php';
+require_once 'HTTP/Request.php';
 
-define("CACHE_HTTP_REQUEST_GROUP_NAME", "cache_http_request");
-define("CACHE_HTTP_REQUEST_SUCCESS_RESPONSE_CODE", 200);
-define("CACHE_HTTP_REQUEST_KEEP_LOCAL_COPY", 1);
-define("CACHE_HTTP_REQUEST_RETURN_FALSE", 2);
-define("CACHE_HTTP_REQUEST_RETURN_PEAR_ERROR", 3);
+define('CACHE_HTTP_REQUEST_GROUP_NAME', 'cache_http_request');
+define('CACHE_HTTP_REQUEST_SUCCESS_RESPONSE_CODE', 200);
+define('CACHE_HTTP_REQUEST_KEEP_LOCAL_COPY', 1);
+define('CACHE_HTTP_REQUEST_RETURN_FALSE', 2);
+define('CACHE_HTTP_REQUEST_RETURN_PEAR_ERROR', 3);
 
 /**
 * HTTP_Request Cache
@@ -40,7 +39,7 @@ define("CACHE_HTTP_REQUEST_RETURN_PEAR_ERROR", 3);
 * Every x hours, the cache is updated. But if the remote site is down, the
 * local cache copy is keeped (you can also get error messages if you want).
 *
-* So you need this class !
+* So you need this class!
 *
 * Cache_HTTP_Request inherits from Cache and use HTTP_Request to access to
 * the remote file.
@@ -50,7 +49,7 @@ define("CACHE_HTTP_REQUEST_RETURN_PEAR_ERROR", 3);
 * <?php
 * require_once('Cache/HTTP_Request.php');
 *
-* $cache = &new Cache_HTTP_Request("http://www.php.net", NULL, "file", NULL, 3600);
+* $cache = &new Cache_HTTP_Request('http://www.php.net', NULL, 'file', NULL, 3600);
 * $cache->sendRequest();
 * $remoteFileBody = $cache->getResponseBody();
 *
@@ -137,8 +136,8 @@ class Cache_HTTP_Request extends Cache
         if (!isset($params)) $params = array();
         if (!isset($containerOptions)) {
             $containerOptions = array (
-                "cache_dir" => "/tmp/",
-                "filename_prefix" => "cache_"
+                'cache_dir' => '/tmp/',
+                'filename_prefix' => 'cache_'
             );
         }
         $this->Cache($container, $containerOptions);
@@ -168,7 +167,7 @@ class Cache_HTTP_Request extends Cache
     */
     function getResponseBody()
     {
-        return $this->_data["body"];
+        return $this->_data['body'];
     }
 
     /**
@@ -180,7 +179,7 @@ class Cache_HTTP_Request extends Cache
     */
     function getResponseCode()
     {
-        return $this->_data["code"];
+        return $this->_data['code'];
     }
 
     /**
@@ -192,7 +191,7 @@ class Cache_HTTP_Request extends Cache
     */
     function getResponseHeader()
     {
-        return $this->_data["header"];
+        return $this->_data['header'];
     }
 
 
@@ -259,14 +258,14 @@ class Cache_HTTP_Request extends Cache
                         return false;
                         break;
                     case CACHE_HTTP_REQUEST_RETURN_PEAR_ERROR:
-                        // We return a PEAR_Error !
-                        return new Cache_Error("Remote file is not available !");
+                        // We return a PEAR_Error!
+                        return new Cache_Error('Remote file is not available!');
                         break;
                     }
                 } else {
-                    echo("Nothing !!!");
-                    // It's terrible ! The remote server is down and definitively no cache available !
-                    return new Cache_Error("Remote server down and no cache available !");
+                    echo('Nothing!!!');
+                    // It's terrible! The remote server is down and definitively no cache available!
+                    return new Cache_Error('Remote server down and no cache available!');
                 }
             }
         }
@@ -288,9 +287,9 @@ class Cache_HTTP_Request extends Cache
         $code = $this->_request->getResponseCode();
         $header = $this->_request->getResponseHeader();
         $this->_data = array(
-            "body" => $body,
-            "code" => $code,
-            "header" => $header
+            'body' => $body,
+            'code' => $code,
+            'header' => $header
         );
         return (($code==CACHE_HTTP_REQUEST_SUCCESS_RESPONSE_CODE) ? true : false);
     }

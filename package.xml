@@ -33,6 +33,7 @@ between applications.
     <date>2002-XX-XX</date>
     <state>stable</state>
     <notes>
++ Added Cache_HTTP_Request. (Fabien Marty)
     </notes>
     <filelist>
       <dir name="/">
@@ -51,6 +52,7 @@ between applications.
         <file baseinstalldir="Cache" role="php" name="Error.php" />
         <file baseinstalldir="Cache" role="php" name="Function.php" />
         <file baseinstalldir="Cache" role="php" name="Graphics.php" />
+        <file baseinstalldir="Cache" role="php" name="HTTP_Request.php" />
         <file baseinstalldir="Cache" role="php" name="Output.php" />
         <file baseinstalldir="Cache" role="php" name="OutputCompression.php" />
       </dir>

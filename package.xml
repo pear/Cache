@@ -23,12 +23,12 @@ between applications.
   </maintainers>
   <license>PHP License</license>
   <release>
-    <version>1.5.4</version>
-    <date>2004-04-01</date>
+    <version>1.5.5</version>
+    <date>2004-12-X</date>
     <state>stable</state>
     <notes>
-- Removed Cache_DB as it apparently never really worked.
-- Added trifile container. See http://atomized.org/PEAR/Cache_trifile.html for more information. (By Ian Eure) 
+ - Bug 1999 typo fix by Ian Eure, prevented the saving of $userdata in Trifile container
+ - PHP Bug 25134/PEAR bug 2955, typo fix by Greg in msession container, disallowed id_length
     </notes>
     <filelist>
       <dir name="/" baseinstalldir="Cache">
@@ -58,4 +58,15 @@ between applications.
       <dep type="pkg" rel="has">HTTP_Request</dep>
     </deps>
   </release>
+  <changelog>
+   <release>
+        <version>1.5.4</version>
+    <date>2004-04-01</date>
+    <state>stable</state>
+    <notes>
+- Removed Cache_DB as it apparently never really worked.
+- Added trifile container. See http://atomized.org/PEAR/Cache_trifile.html for more information. (By Ian Eure) 
+    </notes>
+   </release>
+  </changelog>
 </package>

@@ -23,23 +23,23 @@
   </notes>
   <filelist>
    <dir name="/" baseinstalldir="Cache">
-     <file role="php">Application.php</file>
-     <file role="php">Cache.php</file>
-     <file role="php">Container.php</file>
-     <file role="php">DB.php</file>
-     <file role="php">Error.php</file>
-     <file role="php">Function.php</file>
-     <file role="php">Graphics.php</file>
-     <file role="php">Output.php</file>
-     <file role="php">OutputCompression.php</file>
+     <file role="php" name="Application.php"/>
+     <file role="php" name="Cache.php"/>
+     <file role="php" name="Container.php"/>
+     <file role="php" name="DB.php"/>
+     <file role="php" name="Error.php"/>
+     <file role="php" name="Function.php"/>
+     <file role="php" name="Graphics.php"/>
+     <file role="php" name="Output.php"/>
+     <file role="php" name="OutputCompression.php"/>
    </dir>
    <dir name="Container">
-     <file role="php">db.php</file>
-     <file role="php">dbx.php</file>
-     <file role="php">file.php</file>
-     <file role="php">msession.php</file>
-     <file role="php">phplib.php</file>
-     <file role="php">shm.php</file>
+     <file role="php" name="db.php"/>
+     <file role="php" name="dbx.php"/>
+     <file role="php" name="file.php"/>
+     <file role="php" name="msession.php"/>
+     <file role="php" name="phplib.php"/>
+     <file role="php" name="shm.php"/>
    </dir>
   </filelist>
  </release>

@@ -29,21 +29,17 @@ between applications.
   </maintainers>
   <license>PHP License</license>
   <release>
-    <version>1.5.3</version>
-    <date>2003-02-19</date>
+    <version>1.5.4-dev</version>
+    <date>2003-XX-XX</date>
     <state>stable</state>
     <notes>
-- Added Lorenzo Alberton's MDB_Container
-- added max_userdata_filelength as option to file container
-- added (optional) filelocking to file container (by dave winer)
-- fixes in errorchecking and garbage collection in db container
+- Removed Cache_DB as it apparently never really worked.
     </notes>
     <filelist>
       <dir name="/" baseinstalldir="Cache">
         <file role="php" baseinstalldir="/" name="Cache.php" />
         <file role="php" name="Application.php" />
         <file role="php" name="Container.php" />
-        <file role="php" name="DB.php" />
         <file role="php" name="Error.php" />
         <file role="php" name="Function.php" />
         <file role="php" name="Graphics.php" />

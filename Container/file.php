@@ -358,7 +358,7 @@ class Cache_Container_file extends Cache_Container {
 
         $num_removed = 0;
 
-        while ($file = readdir($dh)) {
+        while (false !== $file = readdir($dh)) {
             if ('.' == $file || '..' == $file)
                 continue;
 

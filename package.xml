@@ -35,6 +35,7 @@ between applications.
     <notes>
  - Bug 1999 typo fix by Ian Eure, prevented the saving of $userdata in Trifile container
  - PHP Bug 25134/PEAR bug 2955, typo fix by Greg in msession container, disallowed id_length
+ - Bug 2749, flush() done 2x in a row gave error about none existing directory.
  - CS fixes
     </notes>
     <filelist>

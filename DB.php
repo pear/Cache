@@ -323,11 +323,13 @@ class Cache_DB_Result {
         }
   
         if ($rownum === null) {
-            $rownum = $this->cursor++;
+            $this->cursor++;
+        } else {
+            $this->cursor = $rownum;
         }
 
         if ($rownum < sizeof($this->rows)) {
-            $row = $this->rows[$rownum];
+            $row = $this->rows[$this->cursor];
         } else {
             return false;
         }

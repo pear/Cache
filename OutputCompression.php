@@ -199,7 +199,7 @@ class Cache_OutputCompression extends Cache_Output {
         
         }
         
-        print $content;
+        die($content);
     } // end func printContent
     
     

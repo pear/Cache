@@ -15,12 +15,6 @@ between applications.
       <email>chregu@php.net</email>
     </maintainer>
     <maintainer>
-      <user>sebastian</user>
-      <role>lead</role>
-      <name>Sebastian Bergmann</name>
-      <email>sb@sebastian-bergmann.de</email>
-    </maintainer>
-    <maintainer>
       <user>uw</user>
       <role>developer</role>
       <name>Ulf Wendel</name>

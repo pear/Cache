@@ -263,7 +263,6 @@ class Cache_HTTP_Request extends Cache
                         break;
                     }
                 } else {
-                    echo('Nothing!!!');
                     // It's terrible! The remote server is down and definitively no cache available!
                     return new Cache_Error('Remote server down and no cache available!');
                 }

@@ -129,7 +129,7 @@ class Cache_Function extends Cache {
             if (strstr($target, '::')) {
                 list($class, $method) = explode('::', $target);
 
-                $result = call_user_method_array($method, $class, $arguments);
+                $result = call_user_func_array(array($class, $method), $arguments);
             }
 
             // object->method
@@ -137,7 +137,7 @@ class Cache_Function extends Cache {
                 list($object, $method) = explode('->', $target);
                 global $$object;
 
-                $result = call_user_method_array($method, $$object, $arguments);
+                $result = call_user_func_array(array($$object, $method), $arguments);
             }
 
             // function

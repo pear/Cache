@@ -88,7 +88,7 @@ class Cache_Container_file extends Cache_Container {
     */
      function Cache_Container_file($options = '') {
         if (is_array($options))
-            $this->setOptions($options, array_merge($this->allowed_options, array('cache_dir', 'filename_prefix')));
+            $this->setOptions($options, array_merge($this->allowed_options, array('cache_dir', 'filename_prefix','fileLocking')));
         
         clearstatcache();
         if ($this->cache_dir)

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
-<!DOCTYPE package SYSTEM "../package.dtd">
 <package version="1.0">
  <name>Cache</name>
  <summary>Framework for caching of arbitrary data.</summary>
  <description>
-  With the PEAR Cache you can cache the result of certain function 
-  calls, as well as the output of a whole script run or share data 
+  With the PEAR Cache you can cache the result of certain function
+  calls, as well as the output of a whole script run or share data
   between applications.
  </description>
   <maintainers>
@@ -19,29 +18,30 @@
  <release>
   <version>1.2</version>
   <date>2002-01-20</date>
+  <state>stable</state>
   <notes>
    This is the initial independent PEAR release.
   </notes>
   <filelist>
-   <dir name="/" baseinstalldir="Cache">
-     <file role="php" name="Application.php"/>
-     <file role="php" name="Cache.php"/>
-     <file role="php" name="Container.php"/>
-     <file role="php" name="DB.php"/>
-     <file role="php" name="Error.php"/>
-     <file role="php" name="Function.php"/>
-     <file role="php" name="Graphics.php"/>
-     <file role="php" name="Output.php"/>
-     <file role="php" name="OutputCompression.php"/>
-   </dir>
-   <dir name="Container">
-     <file role="php" name="db.php"/>
-     <file role="php" name="dbx.php"/>
-     <file role="php" name="file.php"/>
-     <file role="php" name="msession.php"/>
-     <file role="php" name="phplib.php"/>
-     <file role="php" name="shm.php"/>
-   </dir>
+   <dir name="/">
+      <file role="php" name="Cache.php"/>
+      <file role="php" baseinstalldir="Cache" name="Application.php"/>
+      <file role="php" baseinstalldir="Cache" name="Container.php"/>
+      <file role="php" baseinstalldir="Cache" name="DB.php"/>
+      <file role="php" baseinstalldir="Cache" name="Error.php"/>
+      <file role="php" baseinstalldir="Cache" name="Function.php"/>
+      <file role="php" baseinstalldir="Cache" name="Graphics.php"/>
+      <file role="php" baseinstalldir="Cache" name="Output.php"/>
+      <file role="php" baseinstalldir="Cache" name="OutputCompression.php"/>
+      <dir name="Container" baseinstalldir="Cache">
+         <file role="php" name="db.php"/>
+         <file role="php" name="dbx.php"/>
+         <file role="php" name="file.php"/>
+         <file role="php" name="msession.php"/>
+         <file role="php" name="phplib.php"/>
+         <file role="php" name="shm.php"/>
+      </dir>
+    </dir>
   </filelist>
  </release>
  <changelog>

@@ -29,8 +29,8 @@ between applications.
   </maintainers>
   <license>PHP License</license>
   <release>
-    <version>1.5</version>
-    <date>2002-XX-XX</date>
+    <version>1.4</version>
+    <date>2002-05-24</date>
     <state>stable</state>
     <notes>
 Fixed packaging.
@@ -58,14 +58,6 @@ Fixed packaging.
     </filelist>
   </release>
   <changelog>
-    <release>
-      <version>1.4</version>
-      <date>2002-05-23</date>
-      <state>stable</state>
-      <notes>
-Fixed packaging.
-      </notes>
-    </release>
     <release>
       <version>1.3</version>
       <date>2002-05-20</date>

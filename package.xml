@@ -29,12 +29,11 @@ between applications.
   </maintainers>
   <license>PHP License</license>
   <release>
-    <version>1.5.2</version>
-    <date>2002-08-08</date>
+    <version>1.5.x</version>
+    <date>2002-11-08</date>
     <state>stable</state>
     <notes>
-Fixed packaging again, install Cache.php in BaseDir and rest in Cache
-please do not change the baseinstalldir again :) (pajoye)
+	- Added Lorenzo Alberton's MDB_Container
     </notes>
     <filelist>
       <dir name="/" baseinstalldir="Cache">
@@ -51,6 +50,8 @@ please do not change the baseinstalldir again :) (pajoye)
         <dir name="Container">
           <file role="php" name="db.php" />
           <file role="php" name="dbx.php" />
+          <file role="php" name="mdb.php" />
+          <file role="data" name="mdb_cache_schema.xml" />
           <file role="php" name="file.php" />
           <file role="php" name="msession.php" />
           <file role="php" name="phplib.php" />
@@ -63,12 +64,23 @@ please do not change the baseinstalldir again :) (pajoye)
     </deps>
   </release>
   <changelog>
+<release>
+    <version>1.5.2</version>
+    <date>2002-08-08</date>
+    <state>stable</state>
+    <notes>
+Fixed packaging again, install Cache.php in BaseDir and rest in Cache
+please do not change the baseinstalldir again :) (pajoye)
+    </notes>
+</release>
+<release>
     <version>1.5.1</version>
     <date>2002-05-29</date>
     <state>stable</state>
     <notes>
 Fixed packaging again (install Cache.php in BaseDir) (chregu)
     </notes>
+</release>
   <release>
     <version>1.5</version>
     <date>2002-05-29</date>

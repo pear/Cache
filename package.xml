@@ -39,7 +39,7 @@ between applications.
     <filelist>
       <dir name="/" baseinstalldir="Cache">
 
-        <file role="php" name="Cache.php" />
+        <file role="php" baseinstalldir="/" name="Cache.php" />
         <file role="php" name="Application.php" />
         <file role="php" name="Container.php" />
         <file role="php" name="DB.php" />

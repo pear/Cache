@@ -14,7 +14,7 @@
 // +----------------------------------------------------------------------+
 // | Authors: Ulf Wendel <ulf.wendel@phpdoc.de>                           |
 // |          Sebastian Bergmann <sb@sebastian-bergmann.de>               |
-// |          Christian Stocker <chregu@nomad.ch>                         |
+// |          Christian Stocker <chregu@phant.ch>                         |
 // +----------------------------------------------------------------------+
 //
 // $Id$

@@ -19,6 +19,8 @@
 // $Id$
 
 require_once 'Cache.php';
+require_once 'Net/Socket.php'; // For HTTP_Request (http://pear.php.net/manual/en/faq.require.php)
+require_once 'Net/URL.php';    // For HTTP_Request (...)
 require_once 'HTTP/Request.php';
 
 define('CACHE_HTTP_REQUEST_GROUP_NAME', 'cache_http_request');

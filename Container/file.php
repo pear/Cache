@@ -116,7 +116,8 @@ class Cache_Container_file extends Cache_Container {
         fclose($fh);
 
         // last usage date used by the gc - maxlifetime
-        touch($file);
+	// touch without second param produced stupid entries...
+        touch($file,time());
         clearstatcache();
         
         return array($expire, $cachedata, $userdata);
@@ -147,7 +148,8 @@ class Cache_Container_file extends Cache_Container {
         fclose($fh);
 
         // I'm not sure if we need this
-        touch($file);
+	// i don't think we need this (chregu)
+        // touch($file);
 
         return true;
     } // end func save

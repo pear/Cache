@@ -200,7 +200,7 @@ class Cache extends PEAR {
     } // end func save
 
     /**
-    * Stores a dataset without additional userdefined data.
+    * Stores a dataset with additional userdefined data.
     *
     * @param    string  dataset ID
     * @param    mixed   data to store

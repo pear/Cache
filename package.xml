@@ -29,12 +29,11 @@ between applications.
   </maintainers>
   <license>PHP License</license>
   <release>
-    <version>1.5</version>
+    <version>1.5.1</version>
     <date>2002-05-29</date>
     <state>stable</state>
     <notes>
-+ Added Cache_HTTP_Request. (Fabien Marty)
-+ Fixed package.xml (chregu)
+Fixed packaging again (install Cache.php in BaseDir) (chregu)
     </notes>
     <filelist>
       <dir name="/" baseinstalldir="Cache">
@@ -65,6 +64,15 @@ between applications.
     </deps>
   </release>
   <changelog>
+  <release>
+    <version>1.5</version>
+    <date>2002-05-29</date>
+    <state>stable</state>
+    <notes>
+Added Cache_HTTP_Request. (Fabien Marty)
+Fixed package.xml (chregu)
+    </notes>
+	</release>
     <release>
       <version>1.4</version>
       <date>2002-05-24</date>

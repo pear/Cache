@@ -20,7 +20,7 @@
 //
 // $Id$
 
-require_once 'MDB/MDB.php';
+require_once 'MDB.php';
 require_once 'Cache/Container.php';
 
 /**
@@ -217,7 +217,7 @@ class Cache_Container_mdb extends Cache_Container {
         $result = $this->db->replace($this->cache_table, $fields);
 
         if(MDB::isError($result)) {
-            Var_Dump::display($result);
+            //Var_Dump::display($result);
             return new Cache_Error('MDB::query failed: '
                     . $this->db->errorMessage($result), __FILE__, __LINE__);
         }
@@ -342,6 +342,10 @@ class Cache_Container_mdb extends Cache_Container {
                 . $this->cache_table;
 
         $cachesize = $this->db->getOne($query);
+        if (MDB::isError($cachesize)) {
+            return new Cache_Error('MDB::query failed: '
+                   . $this->db->errorMessage($cachesize), __FILE__, __LINE__);
+        }
         //if cache is to big.
         if ($cachesize > $this->highwater)
         {
@@ -350,6 +354,10 @@ class Cache_Container_mdb extends Cache_Container {
                     . $this->cache_table .' ORDER BY changed DESC';
 
             $res = $this->db->query($query);
+            if (MDB::isError($res)) {
+               return new Cache_Error('MDB::query failed: '
+                    . $this->db->errorMessage($res), __FILE__, __LINE__);
+            }
             $numrows = $this->db->numRows($res);
             $keep_size = 0;
             while ($keep_size < $this->lowwater && $numrows--) {

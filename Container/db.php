@@ -229,6 +229,10 @@ class Cache_Container_db extends Cache_Container {
                          $this->cache_table
                        );
         $cachesize = $this->db->GetOne($query);
+        if (DB::isError($cachesize)) {
+            return new Cache_Error('DB::query failed: ' . DB::errorMessage($cachesize), __FILE__, __LINE__);
+        }
+
         //if cache is to big.
         if ($cachesize > $this->highwater)
         {
@@ -237,6 +241,10 @@ class Cache_Container_db extends Cache_Container {
                                      $this->cache_table
                        );
             $res = $this->db->query($query);
+            if (DB::isError($res)) {
+                return new Cache_Error('DB::query failed: ' . DB::errorMessage($res), __FILE__, __LINE__);
+            }
+
             $numrows = $this->db->numRows($res);
             $keep_size = 0;
             while ($keep_size < $this->lowwater && $numrows--) {

@@ -217,10 +217,10 @@ class Cache_Container_db extends Cache_Container {
     {
         $this->flushPreload();
 
-        $query = sprintf('DELETE FROM %s WHERE (expires <= %d AND expires > 0) OR changed <= (NOW() - %d)',
+        $query = sprintf('DELETE FROM %s WHERE (expires <= %d AND expires > 0) OR changed <= %d',
                          $this->cache_table,
                          time(),
-                         $maxlifetime
+                         time() - $maxlifetime
                        );
 
         $res = $this->db->query($query);
@@ -237,14 +237,15 @@ class Cache_Container_db extends Cache_Container {
                                      $this->cache_table
                        );
             $res = $this->db->query($query);
-            $keep_size=0;
-            while ($keep_size < $this->lowwater && $entry = $res->FetchRow(DB_FETCHMOD_ASSOC) )
-            {
-                $keep_size += $entry[size];
+            $numrows = $this->db->numRows($res);
+            $keep_size = 0;
+            while ($keep_size < $this->lowwater && $numrows--) {
+                $entry = $res->fetchRow(DB_FETCHMODE_ASSOC);
+                $keep_size += $entry['size'];
             }
 
             //delete all entries, which were changed before the "lowwwater mark"
-            $query = sprintf('delete from %s where changed <= '.$entry[changed],
+            $query = sprintf('delete from %s where changed <= '.($entry['changed'] ? $entry['changed'] : 0),
                                      $this->cache_table
                                    );
             $res = $this->db->query($query);

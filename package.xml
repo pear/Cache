@@ -45,9 +45,8 @@ Fixed packaging.
           <file role="php" name="phplib.php" />
           <file role="php" name="shm.php" />
         </dir>
-
+        <file role="php" name="Cache.php" />
         <file baseinstalldir="Cache" role="php" name="Application.php" />
-        <file baseinstalldir="Cache" role="php" name="Cache.php" />
         <file baseinstalldir="Cache" role="php" name="Container.php" />
         <file baseinstalldir="Cache" role="php" name="DB.php" />
         <file baseinstalldir="Cache" role="php" name="Error.php" />

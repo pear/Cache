@@ -322,14 +322,13 @@ class Cache_DB_Result {
             $return_object = true;
         }
   
-        if ($rownum === null) {
-            $this->cursor++;
-        } else {
+        if ($rownum !== null) {
+        // 05-Mar-2003 :: fixed a bug with cursor property - mg
             $this->cursor = $rownum;
         }
 
         if ($rownum < sizeof($this->rows)) {
-            $row = $this->rows[$this->cursor];
+            $row = $this->rows[$this->cursor++];
         } else {
             return false;
         }

@@ -295,6 +295,4 @@ class Cache_HTTP_Request extends Cache
     }
 
 }
-
 ?>
-

@@ -1,9 +1,8 @@
 <?php
-
 // +----------------------------------------------------------------------+
-// | PHP Version 4                                                        |
+// | PEAR :: Cache                                                        |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 1997, 1998, 1999, 2000, 2001 The PHP Group             |
+// | Copyright (c) 1997-2002 The PHP Group                                |
 // +----------------------------------------------------------------------+
 // | This source file is subject to version 2.0 of the PHP license,       |
 // | that is bundled with this package in the file LICENSE, and is        |

@@ -81,6 +81,19 @@ class Cache_Container_file extends Cache_Container {
     */
     var $total_size = 0;
 
+
+    /**
+    * Max Line Length of userdata
+    *
+    * If set to 0, it will take the default 
+    * ( 1024 in php 4.2, unlimited in php 4.3)
+    * see http://ch.php.net/manual/en/function.fgets.php
+    * for details
+    *
+    * @var int
+    */
+    var $max_userdata_linelength = 257;
+
     /**
     * Creates the cache directory if neccessary
     *
@@ -88,7 +101,7 @@ class Cache_Container_file extends Cache_Container {
     */
      function Cache_Container_file($options = '') {
         if (is_array($options))
-            $this->setOptions($options, array_merge($this->allowed_options, array('cache_dir', 'filename_prefix','fileLocking')));
+            $this->setOptions($options, array_merge($this->allowed_options, array('cache_dir', 'filename_prefix', 'max_userdata_linelength')));
         
         clearstatcache();
         if ($this->cache_dir)
@@ -128,7 +141,11 @@ class Cache_Container_file extends Cache_Container {
         // 2nd line: user data
         // 3rd+ lines: cache data
         $expire = trim(fgets($fh, 12));
-        $userdata = trim(fgets($fh, 257));
+        if ($this->max_userdata_linelength == 0 ) {
+            $userdata = trim(fgets($fh));
+        } else {
+            $userdata = trim(fgets($fh, $this->max_userdata_linelength));
+        }
         $cachedata = $this->decode(fread($fh, filesize($file)));
 
         // Unlocking

@@ -29,6 +29,18 @@ require_once 'Cache/Container.php';
 class Cache_Container_file extends Cache_Container {
 
     /**
+    * File locking
+    *
+    * With file container, it's possible, that you get corrupted
+    * data-entries under bad circumstances. The file locking must
+    * improve this problem but it's experimental stuff. So the
+    * default value is false. But it seems to give good results
+    *
+    * @var boolean
+    */
+    var $fileLocking = false;
+
+    /**
     * Directory where to put the cache files.
     *
     * @var  string  Make sure to add a trailing slash
@@ -107,6 +119,10 @@ class Cache_Container_file extends Cache_Container {
         if (!($fh = @fopen($file, 'rb')))
             return new Cache_Error("Can't access cache file '$file'. Check access rights and path.", __FILE__, __LINE__);
 
+        // File locking (shared lock)
+        if ($this->fileLocking)
+            flock($fh, LOCK_SH);
+
         // file format:
         // 1st line: expiration date
         // 2nd line: user data
@@ -114,13 +130,18 @@ class Cache_Container_file extends Cache_Container {
         $expire = trim(fgets($fh, 12));
         $userdata = trim(fgets($fh, 257));
         $cachedata = $this->decode(fread($fh, filesize($file)));
+
+        // Unlocking
+        if ($this->fileLocking)
+            flock($fh, LOCK_UN);
+
         fclose($fh);
 
         // last usage date used by the gc - maxlifetime
         // touch without second param produced stupid entries...
         touch($file,time());
         clearstatcache();
-        
+
         return array($expire, $cachedata, $userdata);
     } // end func fetch
 
@@ -137,6 +158,10 @@ class Cache_Container_file extends Cache_Container {
         if (!($fh = @fopen($file, 'wb')))
             return new Cache_Error("Can't access '$file' to store cache data. Check access rights and path.", __FILE__, __LINE__);
 
+        // File locking (exclusive lock)
+        if ($this->fileLocking)
+            flock($fh, LOCK_EX);
+
         // file format:
         // 1st line: expiration date
         // 2nd line: user data
@@ -145,6 +170,10 @@ class Cache_Container_file extends Cache_Container {
         fwrite($fh, $expires . "\n");
         fwrite($fh, $userdata . "\n");
         fwrite($fh, $this->encode($cachedata));
+
+        // File unlocking
+        if ($this->fileLocking)
+            flock($fh, LOCK_UN);
 
         fclose($fh);
 

@@ -29,15 +29,15 @@ between applications.
   </maintainers>
   <license>PHP License</license>
   <release>
-    <version>1.5.1</version>
-    <date>2002-05-29</date>
+    <version>1.5.2</version>
+    <date>2002-08-08</date>
     <state>stable</state>
     <notes>
-Fixed packaging again (install Cache.php in BaseDir) (chregu)
+Fixed packaging again, install Cache.php in BaseDir and rest in Cache
+please do not change the baseinstalldir again :) (pajoye)
     </notes>
     <filelist>
       <dir name="/" baseinstalldir="Cache">
-
         <file role="php" baseinstalldir="/" name="Cache.php" />
         <file role="php" name="Application.php" />
         <file role="php" name="Container.php" />
@@ -48,7 +48,7 @@ Fixed packaging again (install Cache.php in BaseDir) (chregu)
         <file role="php" name="HTTP_Request.php" />
         <file role="php" name="Output.php" />
         <file role="php" name="OutputCompression.php" />
-        <dir name="Container" baseinstalldir="Cache/Container">
+        <dir name="Container">
           <file role="php" name="db.php" />
           <file role="php" name="dbx.php" />
           <file role="php" name="file.php" />
@@ -56,7 +56,6 @@ Fixed packaging again (install Cache.php in BaseDir) (chregu)
           <file role="php" name="phplib.php" />
           <file role="php" name="shm.php" />
         </dir>
-
       </dir>
     </filelist>
     <deps>
@@ -64,6 +63,12 @@ Fixed packaging again (install Cache.php in BaseDir) (chregu)
     </deps>
   </release>
   <changelog>
+    <version>1.5.1</version>
+    <date>2002-05-29</date>
+    <state>stable</state>
+    <notes>
+Fixed packaging again (install Cache.php in BaseDir) (chregu)
+    </notes>
   <release>
     <version>1.5</version>
     <date>2002-05-29</date>

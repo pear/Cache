@@ -80,13 +80,12 @@ class Cache_DB extends Cache {
     * @param    array   Array with container class options
     * @param    integer Lifetime of a cached result set (in seconds)
     */
-    function Cache_DB($container  = 'file',
-                      $container_options = array('cache_dir'       => '.',
-                                                 'filename_prefix' => 'query_'
-                                                ),
-                      $expires = 3600
-                     )
-    {
+    function Cache_DB($container = 'file',
+                      $container_options = array(
+                        'cache_dir'       => '.',
+                        'filename_prefix' => 'query_'
+                      ),
+                      $expires = 3600) {
         $this->Cache($container, $container_options);
         $this->expires = $expires;      
     }
@@ -177,12 +176,13 @@ class Cache_DB extends Cache {
                     if (!empty($this->dsn)) {
                         $this->connect($this->dsn, $this->options);
                     } else {
-                        return new Cache_Error('No database connection. Either open a connection
-                                               using connect() or register a connection with
-                                               setConnection($dsn, $options)',
-                                               __FILE__,
-                                               __LINE__
-                                              );
+                        return new Cache_Error(
+                          'No database connection. Either open a connection ' .
+                          'using connect() or register a connection with ' .
+                          'setConnection($dsn, $options)',
+                          __FILE__,
+                          __LINE__
+                        );
                     }
                 }
 
@@ -195,7 +195,11 @@ class Cache_DB extends Cache {
                         $rows[] = $row;
                     }
 
-                    $result = new Cache_DB_Result($rows, $this->fetchmode, $this->fetchmode_object_class);
+                    $result = new Cache_DB_Result(
+                      $rows,
+                      $this->fetchmode,
+                      $this->fetchmode_object_class
+                    );
 
                     $this->save($cache_id, $result, $this->expires, 'db_cache');
                 } else {
@@ -208,12 +212,13 @@ class Cache_DB extends Cache {
                     $this->connect($this->dsn, $this->options);
                     $result = $this->db->query($query);
                 } else {
-                    return new Cache_Error('No database connection. Either open a connection
-                                           using connect() or register a connection with
-                                           setConnection($dsn, $options)',
-                                           __FILE__,
-                                           __LINE__
-                                          );
+                    return new Cache_Error(
+                      'No database connection. Either open a connection ' .
+                      'using connect() or register a connection with ' .
+                      'setConnection($dsn, $options)',
+                      __FILE__,
+                      __LINE__
+                    );
                 }
             }
         }
@@ -290,14 +295,14 @@ class Cache_DB_Result {
     * @param  string  fetchmode_object_class
     */
     function Cache_DB_Result(&$rows, $fetchmode, $fetchmode_object_class) {
-      $this->rows                   = $rows;
-      $this->fetchmode              = $fetchmode;
-      $this->fetchmode_object_class = $fetchmode_object_class;
+        $this->rows                   = $rows;
+        $this->fetchmode              = $fetchmode;
+        $this->fetchmode_object_class = $fetchmode_object_class;
 
-      $this->column_names = array_keys($this->rows[0]);
-      $this->cursor       = 0;
-      $this->num_columns  = sizeof($this->column_names);
-      $this->num_rows     = sizeof($this->rows);
+        $this->column_names = array_keys($this->rows[0]);
+        $this->cursor       = 0;
+        $this->num_columns  = sizeof($this->column_names);
+        $this->num_rows     = sizeof($this->rows);
     }
 
     /**
@@ -407,11 +412,12 @@ class Cache_DB_Result {
      * @throws  object  Cache_Error
      */
     function tableInfo($mode = null) {
-        return new Cache_Error('tableInfo() is not implemented in the
-                               PEAR Cache DB module.',
-                               __FILE__,
-                               __LINE__
-                              );
+        return new Cache_Error(
+          'tableInfo() is not implemented in the ' .
+          'PEAR Cache DB module.',
+          __FILE__,
+          __LINE__
+        );
     }
 }
 ?>

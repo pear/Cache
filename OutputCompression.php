@@ -186,7 +186,7 @@ class Cache_OutputCompression extends Cache_Output {
    
             $etag = 'PEAR-Cache-' . md5(substr($content, -40));
             header("ETag: $etag");
-            if (strstr(stripslashes($HTTP_SERVER_VARS['HTTP_IF_NONE_MATCH']), $etag)) {
+            if (isset($HTTP_SERVER_VARS['HTTP_IF_NONE_MATCH']) && strstr(stripslashes($HTTP_SERVER_VARS['HTTP_IF_NONE_MATCH']), $etag)) {
                 // not modified
                 header('HTTP/1.0 304');
                 return;

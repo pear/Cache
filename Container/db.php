@@ -42,7 +42,7 @@ require_once 'Cache/Container.php';
 *   id          CHAR(32) NOT null DEFAULT '',
 *   cachegroup  VARCHAR(127) NOT null DEFAULT '',
 *   cachedata   BLOB NOT null DEFAULT '',
-*   userdata    VARCHAR(255) NOT null DEFAUL '',
+*   userdata    VARCHAR(255) NOT null DEFAULT '',
 *   expires     INT(9) NOT null DEFAULT 0,
 *
 *   changed     TIMESTAMP(14) NOT null,

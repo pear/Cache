@@ -23,15 +23,15 @@ between applications.
     <maintainer>
       <user>dufuz</user>
       <role>lead</role>
-      <name>Helgi &#x00DE;ormar</name>
+      <name>Helgi &THORN;ormar</name>
       <email>dufuz@php.net</email>
     </maintainer>
   </maintainers>
   <license>PHP License</license>
   <release>
-    <version>1.5.5</version>
+    <version>1.5.5RC1</version>
     <date>2004-12-X</date>
-    <state>stable</state>
+    <state>beta</state>
     <notes>
  - Bug #1999 typo fix by Ian Eure, prevented the saving of $userdata in Trifile container
  - PHP Bug 2#5134/PEAR bug #2955, typo fix by Greg in msession container, disallowed id_length
@@ -65,7 +65,7 @@ between applications.
       </dir>
     </filelist>
     <deps>
-      <dep type="pkg" rel="ge" version="1.3.3" optional="no">PEAR</dep>
+      <dep type="pkg" rel="ge" version="1.3.5" optional="no">PEAR</dep>
       <dep type="pkg" rel="has" optional="yes">HTTP_Request</dep>
     </deps>
   </release>

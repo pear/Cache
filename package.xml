@@ -55,7 +55,8 @@ between applications.
       </dir>
     </filelist>
     <deps>
-      <dep type="pkg" rel="has">HTTP_Request</dep>
+      <dep type="pkg" rel="ge" version="1.3.3" optional="no">PEAR</dep>
+      <dep type="pkg" rel="has" optional="yes">HTTP_Request</dep>
     </deps>
   </release>
   <changelog>

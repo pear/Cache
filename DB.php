@@ -327,7 +327,7 @@ class Cache_DB_Result {
             $this->cursor = $rownum;
         }
 
-        if ($rownum < sizeof($this->rows)) {
+        if ($this->cursor < sizeof($this->rows)) {
             $row = $this->rows[$this->cursor++];
         } else {
             return false;

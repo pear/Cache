@@ -94,6 +94,7 @@ class Cache_Container_file extends Cache_Container {
                 mkdir($this->cache_dir, 0755);
         }
         $this->entries = array();
+        $this->group_dirs = array();
                     
     } // end func contructor
 
@@ -174,6 +175,7 @@ class Cache_Container_file extends Cache_Container {
         $dir = ($group) ? $this->cache_dir . $group . '/' : $this->cache_dir;
 
         $num_removed = $this->deleteDir($dir);
+        unset($this->group_dirs[$group]);
         clearstatcache();
 
         return $num_removed;
@@ -282,10 +284,9 @@ class Cache_Container_file extends Cache_Container {
     * @access   public
     */
     function getFilename($id, $group) {
-        static $group_dirs = array();
 
-        if (isset($group_dirs[$group]))
-            return $group_dirs[$group] . $this->filename_prefix . $id;
+        if (isset($this->group_dirs[$group]))
+            return $this->group_dirs[$group] . $this->filename_prefix . $id;
 
         $dir = $this->cache_dir . $group . '/';
         if (!file_exists($dir)) {
@@ -293,7 +294,7 @@ class Cache_Container_file extends Cache_Container {
             clearstatcache();
         }
 
-        $group_dirs[$group] = $dir;
+        $this->group_dirs[$group] = $dir;
 
         return $dir . $this->filename_prefix . $id;
     } // end func getFilename

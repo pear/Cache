@@ -30,14 +30,26 @@ between applications.
   <license>PHP License</license>
   <release>
     <version>1.5</version>
-    <date>2002-XX-XX</date>
+    <date>2002-05-29</date>
     <state>stable</state>
     <notes>
 + Added Cache_HTTP_Request. (Fabien Marty)
++ Fixed package.xml (chregu)
     </notes>
     <filelist>
-      <dir name="/">
-        <dir name="Container" baseinstalldir="Cache">
+      <dir name="/" baseinstalldir="Cache">
+
+        <file role="php" name="Cache.php" />
+        <file role="php" name="Application.php" />
+        <file role="php" name="Container.php" />
+        <file role="php" name="DB.php" />
+        <file role="php" name="Error.php" />
+        <file role="php" name="Function.php" />
+        <file role="php" name="Graphics.php" />
+        <file role="php" name="HTTP_Request.php" />
+        <file role="php" name="Output.php" />
+        <file role="php" name="OutputCompression.php" />
+        <dir name="Container" baseinstalldir="Cache/Container">
           <file role="php" name="db.php" />
           <file role="php" name="dbx.php" />
           <file role="php" name="file.php" />
@@ -45,16 +57,7 @@ between applications.
           <file role="php" name="phplib.php" />
           <file role="php" name="shm.php" />
         </dir>
-        <file role="php" name="Cache.php" />
-        <file baseinstalldir="Cache" role="php" name="Application.php" />
-        <file baseinstalldir="Cache" role="php" name="Container.php" />
-        <file baseinstalldir="Cache" role="php" name="DB.php" />
-        <file baseinstalldir="Cache" role="php" name="Error.php" />
-        <file baseinstalldir="Cache" role="php" name="Function.php" />
-        <file baseinstalldir="Cache" role="php" name="Graphics.php" />
-        <file baseinstalldir="Cache" role="php" name="HTTP_Request.php" />
-        <file baseinstalldir="Cache" role="php" name="Output.php" />
-        <file baseinstalldir="Cache" role="php" name="OutputCompression.php" />
+
       </dir>
     </filelist>
     <deps>

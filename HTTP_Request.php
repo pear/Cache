@@ -132,7 +132,10 @@ class Cache_HTTP_Request extends Cache
                                 $containerOptions = null, $expires = 3600,
                                 $mode = CACHE_HTTP_REQUEST_KEEP_LOCAL_COPY)
     {
-        if (!isset($params)) $params = array();
+        if (!isset($params)) {
+            $params = array();
+        }
+
         if (!isset($containerOptions)) {
             $containerOptions = array (
                 'cache_dir' => '/tmp/',

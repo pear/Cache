@@ -32,7 +32,8 @@ require_once 'Cache/Container.php';
 * @version  $Id$
 * @package  Cache
 */
-class Cache_Container_shm extends Cache_Container {
+class Cache_Container_shm extends Cache_Container
+{
     /**
     * Key of the semaphore used to sync the SHM access
     * 
@@ -105,8 +106,9 @@ class Cache_Container_shm extends Cache_Container {
     *
     * @param array    shm_key, sem_key, shm_size, sem_perm, shm_perm
     */    
-    function Cache_Container_shm($options = '') {
-        if (is_array($options))
+    function Cache_Container_shm($options = '')
+    {
+        if (is_array($options)) {
             $this->setOptions($options, array_merge($this->allowed_options, 
                                                     array('shm_key',  'sem_key', 
                                                           'shm_size', 'sem_perm',
@@ -114,33 +116,35 @@ class Cache_Container_shm extends Cache_Container {
                                                          )
                                         )
                                );
-
+        }
         // Cache::Container high- and lowwater defaults should be overridden if
         // not already done by the user
-        if (!isset($options['highwater'])) 
+        if (!isset($options['highwater'])) { 
             $this->highwater = round(0.75 * 131072);
-        if (!isset($options['lowwater']))
+        }
+        if (!isset($options['lowwater'])) {
             $this->lowwater = round(0.5 * 131072);
-
-        if (!isset($options['shm_size']))
+        }
+        if (!isset($options['shm_size'])) {
             $this->shm_size = 131072;
-
+        }
         //get SHM and Semaphore handles
-        if (!($this->shm_id = shmop_open($this->shm_key, 'c', $this->shm_perm, $this->shm_size)))
+        if (!($this->shm_id = shmop_open($this->shm_key, 'c', $this->shm_perm, $this->shm_size))) {
             new Cache_Error("Can't open SHM segment '{$this->shm_key}', size '{$this->shm_size}'.",
                             __FILE__,
                             __LINE__
                            );
-
-        if (!($this->sem_id = sem_get($this->sem_key, 1, $this->sem_perm)))
+        }
+        if (!($this->sem_id = sem_get($this->sem_key, 1, $this->sem_perm))) {
             new Cache_Error("Can't get semaphore '{$this->sem_key}' using perms '{$this->sem_perm}'.",
                             __FILE__,
                             __LINE__
                            );
-
+        }
     } // end constructor
 
-    function fetch($id, $group) {
+    function fetch($id, $group)
+    {
         sem_acquire($this->sem_id);
 
         $cachedata = shmop_read($this->shm_id, 0, $this->shm_size);
@@ -149,18 +153,19 @@ class Cache_Container_shm extends Cache_Container {
 
         $cachedata = $this->decode($cachedata);
 
-        if (!isset($cachedata[$group][$id]))
+        if (!isset($cachedata[$group][$id])) {
             return array(null, null, null);
-        else 
+        } else {
             $cachedata = $cachedata[$group][$id];
-
+        }
         return array($cachedata['expire'],
                      $cachedata['cachedata'],
                      $cachedata['userdata']
                     );
     } // end func fetch
 
-    function save($id, $data, $expire, $group, $userdata) {
+    function save($id, $data, $expire, $group, $userdata)
+    {
         $this->flushPreload($id, $group);
 
         sem_acquire($this->sem_id);
@@ -172,9 +177,9 @@ class Cache_Container_shm extends Cache_Container {
                                         'changed'   => time()
                                        );
 
-        if (strlen($newdata = $this->encode($cachedata)) > $this->shm_size)
+        if (strlen($newdata = $this->encode($cachedata)) > $this->shm_size) {
             $cachedata = $this->garbageCollection(time(), $cachedata);
-
+        }
         shmop_write($this->shm_id, $newdata, 0);
 
         sem_release($this->sem_id);
@@ -182,7 +187,8 @@ class Cache_Container_shm extends Cache_Container {
         return true;
     } // end func save
 
-    function remove($id, $group) {
+    function remove($id, $group)
+    {
         $this->flushPreload($id, $group);
 
         sem_acquire($this->sem_id);
@@ -194,7 +200,8 @@ class Cache_Container_shm extends Cache_Container {
         sem_release($this->sem_id);
     } // end func remove
 
-    function flush($group = '') {
+    function flush($group = '')
+    {
         $this->flushPreload();
 
         sem_acquire($this->sem_id);
@@ -204,7 +211,8 @@ class Cache_Container_shm extends Cache_Container {
         sem_release($this->sem_id);
     } // end func flush
 
-    function idExists($id, $group) {
+    function idExists($id, $group)
+    {
         sem_acquire($this->sem_id);
 
         $cachedata = shm_read($this->shm_id, 0, $this->shm_size);
@@ -216,7 +224,8 @@ class Cache_Container_shm extends Cache_Container {
         return isset($cachedata[$group][$id]);
     } // end func isExists
 
-    function garbageCollection($maxlifetime, $cachedata = array()) {
+    function garbageCollection($maxlifetime, $cachedata = array())
+    {
         if ($lock = empty($cachedata)) {
             sem_acquire($this->sem_id);
             $cachedata = $this->decode(shmop_read($this->shm_id, 0, $this->shm_size));
@@ -237,16 +246,17 @@ class Cache_Container_shm extends Cache_Container {
             }
         }
 
-        if ($lock)
+        if ($lock) {
             sem_release($this->sem_id);
-
+        }
         $this->entries = array();
         $this->total_size = 0;
 
         return $cachedata;           
     } // end func garbageCollection
 
-    function doGarbageCollection($maxlifetime, &$cachedata) {
+    function doGarbageCollection($maxlifetime, &$cachedata)
+    {
         $changed = time() - $maxlifetime;
         $removed = 0;
 

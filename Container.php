@@ -44,7 +44,8 @@ require_once 'Cache/Error.php';
 * @access   public
 * @abstract
 */
-class Cache_Container {
+class Cache_Container
+{
 
     /**
     * Flag indicating wheter to preload datasets.
@@ -143,11 +144,12 @@ class Cache_Container {
     * @return   mixed   dataset value or null on failure
     * @access   public
     */
-    function load($id, $group) {
+    function load($id, $group)
+    {
         if ($this->preload) {
-            if ($this->id != $id || $this->group != $group)
+            if ($this->id != $id || $this->group != $group) {
                 $this->preload($id, $group);
-
+            }
             return $this->cachedata;
         } else {
             list( , $data, ) = $this->fetch($id, $group);
@@ -163,11 +165,12 @@ class Cache_Container {
     * @return   string  userdata
     * @access   public
     */
-    function getUserdata($id, $group) {
+    function getUserdata($id, $group)
+    {
         if ($this->preload) {
-            if ($this->id != $id || $this->group != $group)
+            if ($this->id != $id || $this->group != $group) {
                 $this->preload($id, $group);
-                
+            }
             return $this->userdata;
         } else {
             list( , , $userdata) = $this->fetch($id, $group);
@@ -184,26 +187,28 @@ class Cache_Container {
     * @return   boolean 
     * @access   public
     */
-    function isExpired($id, $group, $max_age) {
+    function isExpired($id, $group, $max_age)
+    {
         if ($this->preload) {
-          if ($this->id != $id || $this->group != $group)
-            $this->preload($id, $group);
-          
-          if ($this->unknown)
-            return false;
+            if ($this->id != $id || $this->group != $group) {
+                $this->preload($id, $group);
+            }
+            if ($this->unknown) {
+                return false;
+            }
         } else {
             // check if at all it is cached
-            if (!$this->isCached($id, $group))
+            if (!$this->isCached($id, $group)) {
                 return false;
-                
+            }
             // I'm lazy...
             list($this->expires, , ) = $this->fetch($id, $group);
         }
 
         // endless
-        if (0 == $this->expires)
+        if (0 == $this->expires) {
             return false;
-
+        }
         // you feel fine, Ulf?
         if ($expired  = ($this->expires <= time() || ($max_age && ($this->expires <= $max_age))) ) {
 
@@ -220,15 +225,15 @@ class Cache_Container {
     * @param    string  cache group
     * @return   boolean
     */
-    function isCached($id, $group) {
+    function isCached($id, $group)
+    {
         if ($this->preload) {
-            if ($this->id != $id || $this->group != $group)
+            if ($this->id != $id || $this->group != $group) {
                 $this->preload($id, $group);
-
+            }
             return !($this->unknown);
-        } else {
-            return $this->idExists($id, $group);
         }
+        return $this->idExists($id, $group);
     } // end func isCached
 
     //
@@ -244,7 +249,8 @@ class Cache_Container {
     * @throws   Cache_Error
     * @abstract
     */
-    function fetch($id, $group) {
+    function fetch($id, $group)
+    {
         return array(null, null, null);
     } // end func fetch
 
@@ -261,11 +267,11 @@ class Cache_Container {
     * @access   public
     * @abstract
     */
-    function save($id, $data, $expire, $group, $userdata) {
+    function save($id, $data, $expire, $group, $userdata)
+    {
         // QUESTION: Should we update the preload buffer instead?
         // Don't think so as the sequence save()/load() is unlikely.
         $this->flushPreload($id, $group);
-
         return null;
     } // end func save
 
@@ -278,7 +284,8 @@ class Cache_Container {
     * @access   public
     * @abstract
     */     
-    function remove($id, $group) {
+    function remove($id, $group)
+    {
         $this->flushPreload($id, $group);
         return null;
     } // end func remove
@@ -291,7 +298,8 @@ class Cache_Container {
     * @access   public
     * @abstract
     */
-    function flush($group) {
+    function flush($group)
+    {
         $this->flushPreload();
         return null;
     } // end func flush
@@ -305,7 +313,8 @@ class Cache_Container {
     * @access   public
     * @abstract
     */
-    function idExists($id, $group) {
+    function idExists($id, $group)
+    {
         return null;
     } // end func idExists
 
@@ -315,7 +324,8 @@ class Cache_Container {
     * @access   public
     * @abstract
     */
-    function garbageCollection() {
+    function garbageCollection()
+    {
         $this->flushPreload();
     } // end func garbageCollection
 
@@ -326,7 +336,8 @@ class Cache_Container {
     * @param    string  cache group
     * @return   boolean
     */ 
-    function preload($id, $group) {
+    function preload($id, $group)
+    {
         // whatever happens, remember the preloaded ID
         $this->id = $id;
         $this->group = $group;        
@@ -336,7 +347,6 @@ class Cache_Container {
         if (null === $this->expires) {
             // Uuups, unknown ID
             $this->flushPreload();
-
             return false;
         }
 
@@ -358,7 +368,8 @@ class Cache_Container {
     * @param    string  cache group
     * @see  preload()
     */
-    function flushPreload($id = '', $group = 'default') {
+    function flushPreload($id = '', $group = 'default')
+    {
         if (!$id || ($this->id == $id && $this->group == $group)) {
             // clear the internal preload values
             $this->id = '';
@@ -376,11 +387,13 @@ class Cache_Container {
     * @param    array   List of fields to be imported as object variables
     * @param    array   List of allowed datafields
     */
-    function setOptions($requested, $allowed) {
-        foreach ($allowed as $k => $field)
-            if (isset($requested[$field]))
+    function setOptions($requested, $allowed)
+    {
+        foreach ($allowed as $k => $field) {
+            if (isset($requested[$field])) {
                 $this->$field = $requested[$field];
-                
+            }
+        }      
     } // end func setOptions
 
     /**
@@ -388,11 +401,13 @@ class Cache_Container {
     * 
     * @var  mixed data to encode
     */
-    function encode($data) {
-        if ('base64' == $this->encoding_mode) 
+    function encode($data)
+    {
+        if ('base64' == $this->encoding_mode) { 
             return base64_encode(serialize($data));
-        else 
+        } else { 
             return serialize($data);
+        }
     } // end func encode
 
     
@@ -401,11 +416,13 @@ class Cache_Container {
     * 
     * @var  mixed
     */
-    function decode($data) {
-        if ('base64' == $this->encoding_mode)
+    function decode($data)
+    {
+        if ('base64' == $this->encoding_mode) {
             return unserialize(base64_decode($data));
-        else
+        } else {
             return unserialize($data);
+        }
     } // end func decode
 
     
@@ -422,24 +439,20 @@ class Cache_Container {
     */
     function getExpiresAbsolute($expires)
     {
-        if (!$expires)
+        if (!$expires) {
             return 0;
+        }
         //for api-compatibility, one has not to provide a "+",
         // if integer is < 946681200 (= Jan 01 2000 00:00:00)
-        if ('+' == $expires[0] || $expires < 946681200)
-        {
+        if ('+' == $expires[0] || $expires < 946681200) {
             return(time() + $expires);
-        }
-        //if integer is < 100000000000 (= in 3140 years),
-        // it must be an absolut unixtime
-        // (since the "human readable" definition asks for a higher number)
-        elseif ($expires < 100000000000)
-        {
+        } elseif ($expires < 100000000000) {
+            //if integer is < 100000000000 (= in 3140 years),
+            // it must be an absolut unixtime
+            // (since the "human readable" definition asks for a higher number)
             return $expires;
-        }
-        // else it's "human readable";
-        else
-        {
+        } else {
+            // else it's "human readable";
             $year = substr($expires, 0, 4);
             $month = substr($expires, 4, 2);
             $day = substr($expires, 6, 2);

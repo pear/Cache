@@ -24,7 +24,8 @@ require_once 'PEAR.php';
 * 
 * @package Cache
 */
-class Cache_Error extends PEAR_Error {
+class Cache_Error extends PEAR_Error
+{
 
 
   /**

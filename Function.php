@@ -68,7 +68,8 @@ require_once 'Cache.php';
 * @version      $Revision$
 * @access       public
 */
-class Cache_Function extends Cache {
+class Cache_Function extends Cache
+{
     var $expires;
 
     /**
@@ -93,7 +94,8 @@ class Cache_Function extends Cache {
     * PEAR-Deconstructor
     * Call deconstructor of parent
     */
-    function _Cache_Function() {
+    function _Cache_Function()
+    {
         $this->_Cache();
     }
 
@@ -103,7 +105,8 @@ class Cache_Function extends Cache {
     * @return mixed $result
     * @access public
     */
-    function call() {
+    function call()
+    {
         // get arguments
         $arguments = func_get_args();
 
@@ -130,18 +133,14 @@ class Cache_Function extends Cache {
                 list($class, $method) = explode('::', $target);
 
                 $result = call_user_func_array(array($class, $method), $arguments);
-            }
-
-            // object->method
-            elseif (strstr($target, '->')) {
+            } elseif (strstr($target, '->')) {
+                // object->method
                 list($object, $method) = explode('->', $target);
                 global $$object;
 
                 $result = call_user_func_array(array($$object, $method), $arguments);
-            }
-
-            // function
-            else {
+            } else {
+                // function
                 $result = call_user_func_array($target, $arguments);
             }
 

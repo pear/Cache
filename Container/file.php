@@ -26,7 +26,8 @@ require_once 'Cache/Container.php';
 * @author   Ulf Wendel  <ulf.wendel@phpdoc.de>
 * @version  $Id$
 */
-class Cache_Container_file extends Cache_Container {
+class Cache_Container_file extends Cache_Container
+{
 
     /**
     * File locking
@@ -134,13 +135,13 @@ class Cache_Container_file extends Cache_Container {
             return array(null, null, null);
         }
         // retrive the content
-        if (!($fh = @fopen($file, 'rb')))
+        if (!($fh = @fopen($file, 'rb'))) {
             return new Cache_Error("Can't access cache file '$file'. Check access rights and path.", __FILE__, __LINE__);
-
+        }
         // File locking (shared lock)
-        if ($this->fileLocking)
+        if ($this->fileLocking) {
             flock($fh, LOCK_SH);
-
+        }
         // file format:
         // 1st line: expiration date
         // 2nd line: user data
@@ -183,9 +184,9 @@ class Cache_Container_file extends Cache_Container {
         }
 
         // File locking (exclusive lock)
-        if ($this->fileLocking)
+        if ($this->fileLocking) {
             flock($fh, LOCK_EX);
-
+        }
         // file format:
         // 1st line: expiration date
         // 2nd line: user data
@@ -324,8 +325,9 @@ class Cache_Container_file extends Cache_Container {
             $this->total_size += filesize($file);
             
             // remove if expired
-            if (( ($expire && $expire <= time()) || ($lastused <= (time() - $maxlifetime)) ) && !unlink($file))
+            if (( ($expire && $expire <= time()) || ($lastused <= (time() - $maxlifetime)) ) && !unlink($file)) {
                 new Cache_Error("Can't unlink cache file '$file', skipping. Check permissions and path.", __FILE__, __LINE__);
+            }
         }
 
         closedir($dh);

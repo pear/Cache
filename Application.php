@@ -70,7 +70,8 @@ require_once 'Cache.php';
 // (In fact if you use the register() function with register_globals Off, you have to
 //  use the $_APP method to get at the data).
 
-class Cache_Application extends Cache {
+class Cache_Application extends Cache
+{
 
     var $data;
     var $id;

@@ -38,7 +38,7 @@ class Cache_Container_shm extends Cache_Container {
     * 
     * @var  int
     */
-    var $sem_key = NULL;
+    var $sem_key = null;
 
     /**
     * Permissions of the semaphore used to sync the SHM access
@@ -52,14 +52,14 @@ class Cache_Container_shm extends Cache_Container {
     * 
     * @var  resource
     */
-    var $sem_id = NULL;
+    var $sem_id = null;
 
     /**
     * Key of the shared memory block used to store cache data
     *
     * @var  int
     */
-    var $shm_key = NULL;
+    var $shm_key = null;
 
     /**
     * Size of the shared memory block used
@@ -82,7 +82,7 @@ class Cache_Container_shm extends Cache_Container {
     * 
     * @var resource
     */
-    var $shm_id = NULL;
+    var $shm_id = null;
 
     /**
     * Hash of cache entries
@@ -150,7 +150,7 @@ class Cache_Container_shm extends Cache_Container {
         $cachedata = $this->decode($cachedata);
 
         if (!isset($cachedata[$group][$id]))
-            return array(NULL, NULL, NULL);
+            return array(null, null, null);
         else 
             $cachedata = $cachedata[$group][$id];
 

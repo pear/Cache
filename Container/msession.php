@@ -63,7 +63,7 @@ class Cache_Container_msession extends Cache_Container {
     *
     * @var  string
     */  
-    var $host = NULL;
+    var $host = null;
     
    
     /**
@@ -71,7 +71,7 @@ class Cache_Container_msession extends Cache_Container {
     *
     * @var  string
     */
-    var $port = NULL;
+    var $port = null;
     
     
     /**
@@ -79,7 +79,7 @@ class Cache_Container_msession extends Cache_Container {
     *
     * @var  resource msession
     */
-    var $ms = NULL;
+    var $ms = null;
 
     
     function Cache_Container_msession($options = '') {
@@ -87,9 +87,9 @@ class Cache_Container_msession extends Cache_Container {
             $this->setOptions($options, array_merge($this->allowed_options, array('id_length', 'uniq', 'host', 'port', 'connect')));
 
         if ($connect) {            
-            if (NULL == $this->host)
+            if (null == $this->host)
                 new Cache_Error('No host specified.', __FILE__, __LINE__);
-            if (NULL == $this->port)
+            if (null == $this->port)
                 new Cache_Error('No port specified.', __FILE__, __LINE__);
         
             if (!($this->ms = msession_connect($this->host, $this->port)))
@@ -101,10 +101,10 @@ class Cache_Container_msession extends Cache_Container {
     function fetch($id, $group) {
     
         $id = strtoupper(md5($group)) . $id;
-        $group = msession_get($id, '_pear_cache_data', NULL);
+        $group = msession_get($id, '_pear_cache_data', null);
         
-        if (NULL == $data)
-            return array(NULL, NULL, NULL);
+        if (null == $data)
+            return array(null, null, null);
         
         return array($data['expires'], $data['cachedata'], $data['userdata']);
     } // end func fetch
@@ -186,7 +186,7 @@ class Cache_Container_msession extends Cache_Container {
 
     function idExists($id, $group) {
         
-        return (NULL == msession_get(strtoupper(md5($group)) . $id, '_pear_cache_group', NULL)) ? false : true;
+        return (null == msession_get(strtoupper(md5($group)) . $id, '_pear_cache_group', null)) ? false : true;
     } // end func idExists
 
     /**
@@ -208,8 +208,8 @@ class Cache_Container_msession extends Cache_Container {
         $entries = array();
         
         foreach ($sessions as $k => $id) {
-            $data = msession_get($id, '_pear_cache_data', NULL);
-            if (NULL == $data)
+            $data = msession_get($id, '_pear_cache_data', null);
+            if (null == $data)
                 continue;
                 
             if ($data['expires'] <= time()) {
@@ -217,7 +217,7 @@ class Cache_Container_msession extends Cache_Container {
                 continue;
             }
             
-            $size = msession_get($id, '_pear_cache_size', NULL);
+            $size = msession_get($id, '_pear_cache_size', null);
             $total += $size;
             $entries[$data['expires']] = array($id, $size);
         }

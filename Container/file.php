@@ -126,7 +126,7 @@ class Cache_Container_file extends Cache_Container {
     function fetch($id, $group) {
         $file = $this->getFilename($id, $group);
         if (!file_exists($file))
-            return array(NULL, NULL, NULL);
+            return array(null, null, null);
 
         // retrive the content
         if (!($fh = @fopen($file, 'rb')))

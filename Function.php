@@ -113,7 +113,7 @@ class Cache_Function extends Cache {
         // query cache
         $cached_object = $this->get($id, 'function_cache');
 
-        if ($cached_object != NULL) {
+        if ($cached_object != null) {
             // cache hit: return cached output and result
 
             $output = $cached_object[0];

@@ -169,7 +169,7 @@ class Cache extends PEAR {
     *
     * @param    string  dataset ID
     * @param    string  cache group
-    * @return   mixed   cached data or NULL on failure
+    * @return   mixed   cached data or null on failure
     * @access   public
     */
     function get($id, $group = 'default') {
@@ -179,7 +179,7 @@ class Cache extends PEAR {
         if ($this->isCached($id, $group) && !$this->isExpired($id, $group))
             return $this->load($id, $group);
 
-        return NULL;
+        return null;
     } // end func get
 
     /**
@@ -224,7 +224,7 @@ class Cache extends PEAR {
     *
     * @param    string  dataset ID
     * @param    string  cache group
-    * @return   mixed   cached data or NULL on failure
+    * @return   mixed   cached data or null on failure
     * @access   public
     */
     function load($id, $group = 'default') {

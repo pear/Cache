@@ -48,7 +48,7 @@ define('CACHE_HTTP_REQUEST_RETURN_PEAR_ERROR', 3);
 * <?php
 * require_once('Cache/HTTP_Request.php');
 *
-* $cache = &new Cache_HTTP_Request('http://www.php.net', NULL, 'file', NULL, 3600);
+* $cache = &new Cache_HTTP_Request('http://www.php.net', null, 'file', null, 3600);
 * $cache->sendRequest();
 * $remoteFileBody = $cache->getResponseBody();
 *
@@ -128,8 +128,8 @@ class Cache_HTTP_Request extends Cache
     * @see Cache, HTTP_Request
     * @access public
     */
-    function Cache_HTTP_Request($url, $params = NULL, $container  = 'file',
-                                $containerOptions = NULL, $expires = 3600,
+    function Cache_HTTP_Request($url, $params = null, $container  = 'file',
+                                $containerOptions = null, $expires = 3600,
                                 $mode = CACHE_HTTP_REQUEST_KEEP_LOCAL_COPY)
     {
         if (!isset($params)) $params = array();
@@ -158,7 +158,7 @@ class Cache_HTTP_Request extends Cache
     }
 
     /**
-    * Get and return the response body (NULL if no data available)
+    * Get and return the response body (null if no data available)
     *
     * @see sendRequest()
     * @return mixed response body
@@ -170,7 +170,7 @@ class Cache_HTTP_Request extends Cache
     }
 
     /**
-    * Get and return the response code (NULL if no data available)
+    * Get and return the response code (null if no data available)
     *
     * @see sendRequest()
     * @return mixed response code
@@ -182,7 +182,7 @@ class Cache_HTTP_Request extends Cache
     }
 
     /**
-    * Get and return the response header (NULL if no data available)
+    * Get and return the response header (null if no data available)
     *
     * @see sendRequest()
     * @return mixed response header

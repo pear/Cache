@@ -62,7 +62,7 @@ require_once 'Cache.php';
 //       automatically globalled upon startup, (ie. when you create the object).
 //
 // Note: If you register a variable that is not set when the script finishes, it will
-//       registered as NULL.
+//       registered as null.
 //
 //
 // *** You are strongly recommended to use only one method of the two above. ***

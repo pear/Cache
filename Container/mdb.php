@@ -103,7 +103,7 @@ class Cache_Container_mdb extends Cache_Container {
      *
      * @param    string  dataset ID
      * @param    string  cache group
-     * @return   mixed   dataset value or NULL/Cache_Error on failure
+     * @return   mixed   dataset value or null/Cache_Error on failure
      * @access   public
      */
     function fetch($id, $group)
@@ -114,7 +114,7 @@ class Cache_Container_mdb extends Cache_Container {
         if($res = $this->db->query($query)) {
             if($this->db->endOfResult($res)) {
                 //no rows returned
-                $data = array(NULL, NULL, NULL);
+                $data = array(null, null, null);
             } else {
                 $clob = $this->db->fetchClob($res,0,'cachedata');
                 if(!MDB::isError($clob)) {
@@ -144,10 +144,10 @@ class Cache_Container_mdb extends Cache_Container {
                                         $row['userdata']
                                     );
                         } else {
-                            $data = array(NULL, NULL, NULL);
+                            $data = array(null, null, null);
                         }
                     } else {
-                        $data = array(NULL, NULL, NULL);
+                        $data = array(null, null, null);
                     }
                 } else {
                     return new Cache_Error('MDB::query failed: '
@@ -158,7 +158,7 @@ class Cache_Container_mdb extends Cache_Container {
         } else {
             //return new Cache_Error('MDB::query failed: '
             //          . $result->getMessage(), __FILE__, __LINE__);
-            $data = array(NULL, NULL, NULL);
+            $data = array(null, null, null);
         }
 
         // last used required by the garbage collection
@@ -202,7 +202,7 @@ class Cache_Container_mdb extends Cache_Container {
             'userdata'  => array(
                             'Type'   => 'integer',
                             'Value'  => $userdata,
-                            'Null'   => ($userdata ? false : true)
+                            'null'   => ($userdata ? false : true)
                         ),
             'expires'   => array(
                             'Type'   => 'integer',

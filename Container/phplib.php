@@ -36,13 +36,13 @@ require_once 'Cache/Container.php';
 * For _MySQL_ you need this DB table:
 *
 * CREATE TABLE cache (
-*   id          CHAR(32) NOT NULL DEFAULT '',
-*   cachegroup  VARCHAR(127) NOT NULL DEFAULT '',
-*   cachedata   BLOB NOT NULL DEFAULT '',
-*   userdata    VARCHAR(255) NOT NULL DEFAUL '',
-*   expires     INT(9) NOT NULL DEFAULT 0,
+*   id          CHAR(32) NOT null DEFAULT '',
+*   cachegroup  VARCHAR(127) NOT null DEFAULT '',
+*   cachedata   BLOB NOT null DEFAULT '',
+*   userdata    VARCHAR(255) NOT null DEFAUL '',
+*   expires     INT(9) NOT null DEFAULT 0,
 *  
-*   changed     TIMESTAMP(14) NOT NULL,
+*   changed     TIMESTAMP(14) NOT null,
 *  
 *   INDEX (expires),
 *   PRIMARY KEY (id, cachegroup)
@@ -142,7 +142,7 @@ class Cache_Container_phplib extends Cache_Container {
                          );
         $this->db->query($query);
         if (!$this->db->Next_Record())
-            return array(NULL, NULL, NULL);
+            return array(null, null, null);
 
         // last used required by the garbage collection   
         // WARNING: might be MySQL specific         

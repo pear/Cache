@@ -140,7 +140,7 @@ class Cache_Container {
     * 
     * @param    string  dataset ID
     * @param    string  cache group
-    * @return   mixed   dataset value or NULL on failure
+    * @return   mixed   dataset value or null on failure
     * @access   public
     */
     function load($id, $group) {
@@ -245,7 +245,7 @@ class Cache_Container {
     * @abstract
     */
     function fetch($id, $group) {
-        return array(NULL, NULL, NULL);
+        return array(null, null, null);
     } // end func fetch
 
     /**
@@ -266,7 +266,7 @@ class Cache_Container {
         // Don't think so as the sequence save()/load() is unlikely.
         $this->flushPreload($id, $group);
 
-        return NULL;
+        return null;
     } // end func save
 
     /**
@@ -280,7 +280,7 @@ class Cache_Container {
     */     
     function remove($id, $group) {
         $this->flushPreload($id, $group);
-        return NULL;
+        return null;
     } // end func remove
 
     /**
@@ -293,7 +293,7 @@ class Cache_Container {
     */
     function flush($group) {
         $this->flushPreload();
-        return NULL;
+        return null;
     } // end func flush
 
     /**
@@ -306,7 +306,7 @@ class Cache_Container {
     * @abstract
     */
     function idExists($id, $group) {
-        return NULL;
+        return null;
     } // end func idExists
 
     /**
@@ -333,7 +333,7 @@ class Cache_Container {
 
         list($this->expires, $this->cachedata, $this->userdata) = $this->fetch($id, $group);
 
-        if (NULL === $this->expires) {
+        if (null === $this->expires) {
             // Uuups, unknown ID
             $this->flushPreload();
 

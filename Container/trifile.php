@@ -45,7 +45,7 @@ class Cache_Container_trifile extends Cache_Container_file {
     {
         $file = $this->getFilename($id, $group);
         if (!file_exists($file))
-            return array(NULL, NULL, NULL);
+            return array(null, null, null);
         
         return array(
                 file_get_contents($this->_getExpFile($file)),

@@ -151,7 +151,7 @@ class Cache extends PEAR
      */
     function getCaching()
     {
-        return ($this->caching);
+        return $this->caching;
     }
 
     /**

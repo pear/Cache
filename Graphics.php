@@ -236,8 +236,8 @@ class Cache_Graphics extends Cache
         ob_end_clean();
         ob_start(); 
 
-        if (strtoupper($format) == "JPG") {
-            $genFormat = "JPEG";
+        if (strtoupper($format) == 'JPG') {
+            $genFormat = 'JPEG';
         } else {
             $genFormat = strtoupper($format);
         }
@@ -300,8 +300,8 @@ class Cache_Graphics extends Cache
             return array($ffile, $url);
         }
 
-        if (strtoupper($format) == "JPG") {
-            $genFormat = "JPEG";
+        if (strtoupper($format) == 'JPG') {
+            $genFormat = 'JPEG';
         } else {
             $genFormat = strtoupper($format);
         }

@@ -87,10 +87,10 @@ class Cache_Container_msession extends Cache_Container
             $this->setOptions($options, array_merge($this->allowed_options, array('id_length', 'uniq', 'host', 'port', 'connect')));
         }
         if ($connect) {            
-            if (null == $this->host) {
+            if ($this->host == null) {
                 new Cache_Error('No host specified.', __FILE__, __LINE__);
             }
-            if (null == $this->port) {
+            if ($this->port == null) {
                 new Cache_Error('No port specified.', __FILE__, __LINE__);
             }
             if (!($this->ms = msession_connect($this->host, $this->port))) {
@@ -105,7 +105,7 @@ class Cache_Container_msession extends Cache_Container
         $id = strtoupper(md5($group)) . $id;
         $group = msession_get($id, '_pear_cache_data', null);
         
-        if (null == $data) {
+        if ($data == null) {
             return array(null, null, null);
         }
         return array($data['expires'], $data['cachedata'], $data['userdata']);
@@ -160,7 +160,7 @@ class Cache_Container_msession extends Cache_Container
         // note that msession works different from the PEAR Cache.
         // msession deletes an entry if it has not been used for n-seconds.
         // PEAR Cache deletes after n-seconds.
-        if (0 != $expires) {
+        if ($expires != 0) {
             msession_timeout($id, $expires);
         }
         msession_unlock($id);
@@ -179,9 +179,10 @@ class Cache_Container_msession extends Cache_Container
         $this->flushPreload();
       
         $sessions = msession_find('_pear_cache_group', $group);
-        if (empty($sessions))
+        if (empty($sessions)) {
             return 0;
-        
+        }
+
         foreach ($sessions as $k => $id)
             messsion_destroy($id);
 
@@ -190,7 +191,7 @@ class Cache_Container_msession extends Cache_Container
 
     function idExists($id, $group)
     {
-        return (null == msession_get(strtoupper(md5($group)) . $id, '_pear_cache_group', null)) ? false : true;
+        return (msession_get(strtoupper(md5($group)) . $id, '_pear_cache_group', null) == null) ? false : true;
     } // end func idExists
 
     /**

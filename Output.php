@@ -119,7 +119,7 @@ class Cache_Output extends Cache
     */
     function _Cache_Output()
     {
-                $this->_Cache();
+        $this->_Cache();
     }
 
     /**
@@ -191,7 +191,7 @@ class Cache_Output extends Cache
     */    
     function printContent($content = '')
     {
-        if ('' == $content) {
+        if ($content == '') {
             $content = &$this->container->cachedata;
         }
         print $content;

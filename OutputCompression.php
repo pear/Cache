@@ -182,7 +182,7 @@ class Cache_OutputCompression extends Cache_Output
     {
         $server = &$this->_importGlobalVariable("server");
 
-        if ('' == $content) {
+        if ($content == '') {
             $content = &$this->container->cachedata;
         }
 

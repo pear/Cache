@@ -344,7 +344,7 @@ class Cache_Container
 
         list($this->expires, $this->cachedata, $this->userdata) = $this->fetch($id, $group);
 
-        if (null === $this->expires) {
+        if ($this->expires === null) {
             // Uuups, unknown ID
             $this->flushPreload();
             return false;
@@ -403,7 +403,7 @@ class Cache_Container
     */
     function encode($data)
     {
-        if ('base64' == $this->encoding_mode) { 
+        if ($this->encoding_mode == 'base64') { 
             return base64_encode(serialize($data));
         } else { 
             return serialize($data);
@@ -418,7 +418,7 @@ class Cache_Container
     */
     function decode($data)
     {
-        if ('base64' == $this->encoding_mode) {
+        if ($this->encoding_mode == 'base64') {
             return unserialize(base64_decode($data));
         } else {
             return unserialize($data);
@@ -444,7 +444,7 @@ class Cache_Container
         }
         //for api-compatibility, one has not to provide a "+",
         // if integer is < 946681200 (= Jan 01 2000 00:00:00)
-        if ('+' == $expires[0] || $expires < 946681200) {
+        if ($expires[0] == '+' || $expires < 946681200) {
             return(time() + $expires);
         } elseif ($expires < 100000000000) {
             //if integer is < 100000000000 (= in 3140 years),

@@ -94,7 +94,7 @@ class Cache_Application extends Cache
         $this->data = $this->isCached($this->id, $this->group) ? unserialize($this->get($this->id, $this->group)) : array();
 
         // If register_globals on, global all registered variables
-        if (ini_get('register_globals') AND is_array($this->data)) {
+        if (ini_get('register_globals') && is_array($this->data)) {
             foreach ($this->data as $key => $value) {
                 global $$key;
                 $$key = $value;
@@ -111,7 +111,7 @@ class Cache_Application extends Cache
     function _Cache_Application()
     {
         // Get contents of all registered variables
-        if (is_array($this->registered_vars) AND !empty($this->registered_vars)) {
+        if (is_array($this->registered_vars) && !empty($this->registered_vars)) {
             foreach ($this->registered_vars as $varname) {
                 global $$varname;
                 $this->data[$varname] = $$varname;

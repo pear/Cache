@@ -275,7 +275,7 @@ class Cache_Container_file extends Cache_Container
                 if (@unlink($entry['file'])) {
                     $this->total_size -= $entry['size'];
                 } else {
-                    new CacheError("Can't delete {$entry["file"]}. Check the permissions.");
+                    new CacheError("Can't delete {$entry['file']}. Check the permissions.");
                 }
             }
             

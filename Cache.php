@@ -18,8 +18,8 @@
 //
 // $Id$
 
-require_once('PEAR.php');
-require_once('Cache/Error.php');
+require_once 'PEAR.php';
+require_once 'Cache/Error.php';
 
 /**
 * Cache is a base class for cache implementations.

@@ -18,7 +18,7 @@
 //
 // $Id$
 
-require_once('Cache/Container.php');
+require_once 'Cache/Container.php';
 
 /**
 * Stores cache contents in a file.

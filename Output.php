@@ -19,7 +19,7 @@
 //
 // $Id$
 
-require_once 'Cache.php';
+require_once 'Cache/Cache.php';
 
 /**
 * Class to cache the output of a script using the output buffering functions

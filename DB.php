@@ -17,7 +17,7 @@
 //
 // $Id$
 
-require_once 'Cache.php';
+require_once 'Cache/Cache.php';
 require_once 'DB.php';
 
 /**

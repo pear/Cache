@@ -67,7 +67,7 @@
 //
 // $Id$
 
-require_once 'Cache.php';
+require_once 'Cache/Cache.php';
 
 class Cache_Function extends Cache {
     var $expires;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE package SYSTEM "../package.dtd">
 <package version="1.0">
- <name>Cache</name>
+ <name>PEAR_Cache</name>
  <summary>Framework for caching of arbitrary data.</summary>
  <description>
   With the PEAR Cache you can cache the result of certain function 

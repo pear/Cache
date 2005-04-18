@@ -116,9 +116,12 @@ class Cache_Container_trifile extends Cache_Container_file
         if (PEAR::isError($res = $this->_saveData($file, $cachedata))) {
             return $res;
         }
+
+        $expires = $this->getExpiresAbsolute($expires);
         if (PEAR::isError($res = $this->_saveData($this->_getExpFile($file), $expires))) {
             return $res;
         }
+
         if (PEAR::isError($res = $this->_saveData($this->_getUDFile($file), $userdata))) {
             return $res;
         }

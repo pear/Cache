@@ -23,14 +23,14 @@ between applications.
     <maintainer>
       <user>dufuz</user>
       <role>lead</role>
-      <name>Helgi &THORN;ormar</name>
+      <name>Helgi &#222;ormar</name>
       <email>dufuz@php.net</email>
     </maintainer>
   </maintainers>
   <license>PHP License</license>
   <release>
     <version>1.5.5RC1</version>
-    <date>2004-12-X</date>
+    <date>2005-04-29</date>
     <state>beta</state>
     <notes>
  - Bug #1999 typo fix by Ian Eure, prevented the saving of $userdata in Trifile container

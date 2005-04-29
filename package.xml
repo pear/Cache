@@ -34,7 +34,7 @@ between applications.
     <state>beta</state>
     <notes>
  - Bug #1999 typo fix by Ian Eure, prevented the saving of $userdata in Trifile container
- - PHP Bug 2#5134/PEAR bug #2955, typo fix by Greg in msession container, disallowed id_length
+ - PHP Bug #25134 / PEAR bug #2955, typo fix by Greg in msession container, disallowed id_length
  - Bug #2749, flush() done 2x in a row gave error about none existing directory.
  - ETag made RFC compailant in OutputCompression (by mike)
  - Bug #3515 typo fix in file container, spotted by Girish dot Nair1 at cognizant dot com

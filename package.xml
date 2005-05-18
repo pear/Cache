@@ -29,16 +29,11 @@ between applications.
   </maintainers>
   <license>PHP License</license>
   <release>
-    <version>1.5.5RC1</version>
-    <date>2005-04-29</date>
+    <version>1.5.5RC2</version>
+    <date>2005-05-18</date>
     <state>beta</state>
     <notes>
- - Bug #1999 typo fix by Ian Eure, prevented the saving of $userdata in Trifile container
- - PHP Bug #25134 / PEAR bug #2955, typo fix by Greg in msession container, disallowed id_length
- - Bug #2749, flush() done 2x in a row gave error about none existing directory.
- - ETag made RFC compailant in OutputCompression (by mike)
- - Bug #3515 typo fix in file container, spotted by Girish dot Nair1 at cognizant dot com
- - CS fixes
+ - package.xml was giving errors when installed because of new line at the end.
     </notes>
     <filelist>
       <dir name="/" baseinstalldir="Cache">
@@ -70,6 +65,19 @@ between applications.
     </deps>
   </release>
   <changelog>
+  <release>
+    <version>1.5.5RC1</version>
+    <date>2005-04-29</date>
+    <state>beta</state>
+    <notes>
+ - Bug #1999 typo fix by Ian Eure, prevented the saving of $userdata in Trifile container
+ - PHP Bug #25134 / PEAR bug #2955, typo fix by Greg in msession container, disallowed id_length
+ - Bug #2749, flush() done 2x in a row gave error about none existing directory.
+ - ETag made RFC compailant in OutputCompression (by mike)
+ - Bug #3515 typo fix in file container, spotted by Girish dot Nair1 at cognizant dot com
+ - CS fixes
+    </notes>
+   </release>
    <release>
         <version>1.5.4</version>
     <date>2004-04-01</date>

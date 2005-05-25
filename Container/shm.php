@@ -231,7 +231,7 @@ class Cache_Container_shm extends Cache_Container
             $cachedata = $this->decode(shmop_read($this->shm_id, 0, $this->shm_size));
         }
 
-        $this->doGarbageCollection($maxlifetime, &$cachedata);
+        $this->doGarbageCollection($maxlifetime, $cachedata);
         if ($this->total_size > $this->highwater) {
             krsort($this->entries);
             reset($this->entries);
@@ -273,9 +273,10 @@ class Cache_Container_shm extends Cache_Container
 
             // ugly but simple to implement :/
             $size = strlen($this->encode($data));
-            $this->entries[$size][] = array('group' => $group,
-                                            'id'    => $id
-                                           );
+            $this->entries[$size][] = array(
+            	'group' => $group,
+                'id'    => $id
+            );
 
             $this->total_size += $size;
         }

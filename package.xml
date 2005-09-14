@@ -13,12 +13,14 @@ between applications.
       <role>lead</role>
       <name>Christian Stocker</name>
       <email>chregu@php.net</email>
+      <active>false</active>
     </maintainer>
     <maintainer>
       <user>uw</user>
       <role>developer</role>
       <name>Ulf Wendel</name>
       <email>ulf.wendel@phpdoc.de</email>
+      <active>false</active>
     </maintainer>
     <maintainer>
       <user>dufuz</user>
@@ -29,11 +31,11 @@ between applications.
   </maintainers>
   <license>PHP License</license>
   <release>
-    <version>1.5.5RC3</version>
-    <date>2005-05-25</date>
+    <version>1.5.5RC4</version>
+    <date>2005-09-14</date>
     <state>beta</state>
     <notes>
- - Fixed bug #4429 Call-time pass-by-reference has been deprecated
+ - Fixed Bug #4449 XML errors during installation
     </notes>
     <filelist>
       <dir name="/" baseinstalldir="Cache">
@@ -66,6 +68,14 @@ between applications.
   </release>
   <changelog>
    <release>
+    <version>1.5.5RC3</version>
+    <date>2005-05-25</date>
+    <state>beta</state>
+    <notes>
+- Fixed bug #4429 Call-time pass-by-reference has been deprecated
+    </notes>
+   </release>
+   <release>
     <version>1.5.5RC2</version>
     <date>2005-05-18</date>
     <state>beta</state>
@@ -92,7 +102,7 @@ between applications.
     <state>stable</state>
     <notes>
 - Removed Cache_DB as it apparently never really worked.
-- Added trifile container. See http://atomized.org/PEAR/Cache_trifile.html for more information. (By Ian Eure) 
+- Added trifile container. See http://atomized.org/PEAR/Cache_trifile.html for more information. (By Ian Eure)
     </notes>
    </release>
   </changelog>

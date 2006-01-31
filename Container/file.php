@@ -152,7 +152,11 @@ class Cache_Container_file extends Cache_Container
         } else {
             $userdata = trim(fgets($fh, $this->max_userdata_linelength));
         }
-        $cachedata = $this->decode(fread($fh, filesize($file)));
+        $buffer = '';
+        while (!feof($fh)) {
+        	$buffer .= fread($fh, 8192);
+        }
+        $cachedata = $this->decode($buffer);
 
         // Unlocking
         if ($this->fileLocking) {

@@ -151,10 +151,15 @@ class Cache_Container
                 $this->preload($id, $group);
             }
             return $this->cachedata;
-        } else {
-            list( , $data, ) = $this->fetch($id, $group);
-            return $data;
         }
+
+        $ret = $this->fetch($id, $group);
+        if (PEAR::isError($ret)) {
+            return $ret;
+        }
+            
+        list( , $data, ) = $ret;
+        return $data;
     } // end func load
 
     /**
@@ -172,10 +177,15 @@ class Cache_Container
                 $this->preload($id, $group);
             }
             return $this->userdata;
-        } else {
-            list( , , $userdata) = $this->fetch($id, $group);
-            return $userdata;
         }
+        
+        $ret = $this->fetch($id, $group);
+        if (PEAR::isError($ret)) {
+            return $ret;
+        }
+        
+        list( , , $userdata) = $ret;
+        return $userdata;
     } // end func getUserdata
 
     /**
@@ -202,7 +212,12 @@ class Cache_Container
                 return false;
             }
             // I'm lazy...
-            list($this->expires, , ) = $this->fetch($id, $group);
+            $ret = $this->fetch($id, $group);
+            if (PEAR::isError($ret)) {
+                return $ret;
+            }
+
+            list($this->expires, , ) = $ret;
         }
 
         // endless
@@ -342,7 +357,11 @@ class Cache_Container
         $this->id = $id;
         $this->group = $group;        
 
-        list($this->expires, $this->cachedata, $this->userdata) = $this->fetch($id, $group);
+        $ret = $this->fetch($id, $group);
+        if (PEAR::isError($ret)) {
+            return $ret;
+        }
+        list($this->expires, $this->cachedata, $this->userdata) = $ret;
 
         if ($this->expires === null) {
             // Uuups, unknown ID

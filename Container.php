@@ -23,21 +23,21 @@ require_once 'Cache/Error.php';
 
 /**
 * Common base class of all cache storage container.
-* 
-* To speed up things we do a preload you should know about, otherwise it might 
+*
+* To speed up things we do a preload you should know about, otherwise it might
 * play you a trick. The Cache controller classes (Cache/Cache, Cache/Output, ...)
 * usually do something like is (isCached($id) && !isExpired($id)) return $container->load($id).
-* if you implement isCached(), isExpired() and load() straight ahead, each of this 
-* functions will result in a storage medium (db, file,...) access. This generates too much load. 
-* Now, a simple speculative preload should saves time in most cases. Whenever 
+* if you implement isCached(), isExpired() and load() straight ahead, each of this
+* functions will result in a storage medium (db, file,...) access. This generates too much load.
+* Now, a simple speculative preload should saves time in most cases. Whenever
 * one of the mentioned methods is invoked we preload the cached dataset into class variables.
 * That means that we have only one storage medium access for the sequence
 *  (isCached($id) && !isExpired($id)) return $container->load($id).
-* The bad thing is that the preloaded data might be outdated meanwhile, which is 
-* unlikely but for you power users, be warned. If you do not want the preload 
-* you should switch it off by setting the class variable $preload to false. Anyway, this is 
+* The bad thing is that the preloaded data might be outdated meanwhile, which is
+* unlikely but for you power users, be warned. If you do not want the preload
+* you should switch it off by setting the class variable $preload to false. Anyway, this is
 * not recommended!
-* 
+*
 * @author   Ulf Wendel <ulf.wendel@phpdoc.de>
 * @version  $Id$
 * @package  Cache
@@ -72,28 +72,28 @@ class Cache_Container
 
     /**
     * Expiration timestamp of a preloaded dataset.
-    * 
+    *
     * @var  integer 0 means never, endless
     */
     var $expires = 0;
 
     /**
     * Value of a preloaded dataset.
-    * 
+    *
     * @var  string
     */
     var $cachedata = '';
 
     /**
     * Preloaded userdata field.
-    * 
+    *
     * @var  string
     */
     var $userdata = '';
 
     /**
     * Flag indicating that the dataset requested for preloading is unknown.
-    *  
+    *
     * @var  boolean
     */
     var $unknown = true;
@@ -104,21 +104,21 @@ class Cache_Container
     * @var  string  base64 or slash
     */
     var $encoding_mode = 'base64';
-    
+
     /**
     * Highwater mark - maximum space required by all cache entries.
-    * 
+    *
     * Whenever the garbage collection runs it checks the amount of space
     * required by all cache entries. If it's more than n (highwater) bytes
     * the garbage collection deletes as many entries as necessary to reach the
-    * lowwater mark. 
-    * 
+    * lowwater mark.
+    *
     * @var  int
     * @see  lowwater
     */
-    var $highwater = 2048000; 
-    
-    
+    var $highwater = 2048000;
+
+
     /**
     * Lowwater mark
     *
@@ -126,19 +126,19 @@ class Cache_Container
     * @see  highwater
     */
     var $lowwater = 1536000;
-    
-    
+
+
     /**
     * Options that can be set in every derived class using it's constructor.
-    * 
+    *
     * @var  array
     */
     var $allowed_options = array('encoding_mode', 'highwater', 'lowwater');
-    
-    
+
+
     /**
     * Loads a dataset from the cache.
-    * 
+    *
     * @param    string  dataset ID
     * @param    string  cache group
     * @return   mixed   dataset value or null on failure
@@ -157,7 +157,7 @@ class Cache_Container
         if (PEAR::isError($ret)) {
             return $ret;
         }
-            
+
         list( , $data, ) = $ret;
         return $data;
     } // end func load
@@ -178,23 +178,23 @@ class Cache_Container
             }
             return $this->userdata;
         }
-        
+
         $ret = $this->fetch($id, $group);
         if (PEAR::isError($ret)) {
             return $ret;
         }
-        
+
         list( , , $userdata) = $ret;
         return $userdata;
     } // end func getUserdata
 
     /**
     * Checks if a dataset is expired.
-    * 
+    *
     * @param    string  dataset ID
     * @param    string  cache group
     * @param    integer maximum age timestamp
-    * @return   boolean 
+    * @return   boolean
     * @access   public
     */
     function isExpired($id, $group, $max_age)
@@ -271,7 +271,7 @@ class Cache_Container
 
     /**
     * Stores a dataset.
-    * 
+    *
     * @param    string  dataset ID
     * @param    mixed   data to store
     * @param    mixed   userdefined expire date
@@ -292,13 +292,13 @@ class Cache_Container
 
     /**
     * Removes a dataset.
-    * 
+    *
     * @param    string  dataset ID
     * @param    string  cache group
-    * @return   boolean  
+    * @return   boolean
     * @access   public
     * @abstract
-    */     
+    */
     function remove($id, $group)
     {
         $this->flushPreload($id, $group);
@@ -307,7 +307,7 @@ class Cache_Container
 
     /**
     * Flushes the cache - removes all caches datasets from the cache.
-    * 
+    *
     * @param    string      If a cache group is given only the group will be flushed
     * @return   integer     Number of removed datasets, -1 on failure
     * @access   public
@@ -321,10 +321,10 @@ class Cache_Container
 
     /**
     * Checks if a dataset exists.
-    * 
+    *
     * @param    string  dataset ID
     * @param    string  cache group
-    * @return   boolean 
+    * @return   boolean
     * @access   public
     * @abstract
     */
@@ -335,7 +335,7 @@ class Cache_Container
 
     /**
     * Starts the garbage collection.
-    * 
+    *
     * @access   public
     * @abstract
     */
@@ -350,19 +350,19 @@ class Cache_Container
     * @param    string  dataset ID
     * @param    string  cache group
     * @return   boolean
-    */ 
+    */
     function preload($id, $group)
     {
         // whatever happens, remember the preloaded ID
         $this->id = $id;
-        $this->group = $group;        
+        $this->group = $group;
 
         $ret = $this->fetch($id, $group);
         if (PEAR::isError($ret)) {
             return $ret;
         }
-        list($this->expires, $this->cachedata, $this->userdata) = $ret;
 
+        list($this->expires, $this->cachedata, $this->userdata) = $ret;
         if ($this->expires === null) {
             // Uuups, unknown ID
             $this->flushPreload();
@@ -378,10 +378,10 @@ class Cache_Container
     * Flushes the internal preload buffer.
     *
     * save(), remove() and flush() must call this method
-    * to preevent differences between the preloaded values and 
+    * to preevent differences between the preloaded values and
     * the real cache contents.
     *
-    * @param    string  dataset ID, if left out the preloaded values will be flushed. 
+    * @param    string  dataset ID, if left out the preloaded values will be flushed.
     *                   If given the preloaded values will only be flushed if they are
     *                   equal to the given id and group
     * @param    string  cache group
@@ -402,7 +402,7 @@ class Cache_Container
 
     /**
     * Imports the requested datafields as object variables if allowed
-    * 
+    *
     * @param    array   List of fields to be imported as object variables
     * @param    array   List of allowed datafields
     */
@@ -412,27 +412,27 @@ class Cache_Container
             if (isset($requested[$field])) {
                 $this->$field = $requested[$field];
             }
-        }      
+        }
     } // end func setOptions
 
     /**
     * Encodes the data for the storage container.
-    * 
+    *
     * @var  mixed data to encode
     */
     function encode($data)
     {
-        if ($this->encoding_mode == 'base64') { 
+        if ($this->encoding_mode == 'base64') {
             return base64_encode(serialize($data));
-        } else { 
+        } else {
             return serialize($data);
         }
     } // end func encode
 
-    
+
     /**
     * Decodes the data from the storage container.
-    * 
+    *
     * @var  mixed
     */
     function decode($data)
@@ -444,7 +444,7 @@ class Cache_Container
         }
     } // end func decode
 
-    
+
     /**
     * Translates human readable/relative times in unixtime
     *
@@ -480,8 +480,8 @@ class Cache_Container
             $second = substr($expires, 12, 2);
             return mktime($hour, $minute, $second, $month, $day, $year);
         }
-        
+
     } // end func getExpireAbsolute
-    
+
 } // end class Container
 ?>

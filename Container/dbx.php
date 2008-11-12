@@ -99,13 +99,6 @@ class Cache_Container_dbx extends Cache_Container
     * @var  string
     */
     var $password = '';
-
-    /**
-    * DBx handle object
-    * 
-    * @var  object DBx handle
-    */
-    var $db;
     
     
     /**

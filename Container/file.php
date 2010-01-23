@@ -358,7 +358,7 @@ class Cache_Container_file extends Cache_Container
         $dir = $this->cache_dir . $group . '/';
         if (is_writeable($this->cache_dir)) {
             if (!file_exists($dir)) {
-                mkdir($dir, 0755);
+                mkdir($dir, 0755, true);
                 clearstatcache();
             }
         } else {

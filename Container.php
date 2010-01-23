@@ -336,10 +336,13 @@ class Cache_Container
     /**
     * Starts the garbage collection.
     *
+    * @param int $gc_maxlifetime The maximum lifetime (seconds) for a cache
+    *                            entry. Implemented by containers,
+    *
     * @access   public
     * @abstract
     */
-    function garbageCollection()
+    function garbageCollection($gc_maxlifetime)
     {
         $this->flushPreload();
     } // end func garbageCollection

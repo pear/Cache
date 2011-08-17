@@ -406,17 +406,64 @@ class Cache_Container
     /**
     * Imports the requested datafields as object variables if allowed
     *
-    * @param    array   List of fields to be imported as object variables
-    * @param    array   List of allowed datafields
+    * @param array $requested list of fields to be imported
+    *
+    * @return boolean True if all parametes in arg are accepted
+    * @access protected
     */
-    function setOptions($requested, $allowed)
+    function setOptions($requested)
     {
-        foreach ($allowed as $k => $field) {
+        $wasAccepted = true;
+        foreach ($this->getAllowedOptions() as $field) {
             if (isset($requested[$field])) {
                 $this->$field = $requested[$field];
+            } else {
+                $wasAccepted = false;
             }
         }
+        return $wasAccepted;
     } // end func setOptions
+
+    /**
+     * Set the Allowed Parameters to Container Type
+     *
+     * @param array $allowedOptions the Array with allowed parameters
+     *
+     * @return boolean
+     * @access protected
+     */
+    function setAllowedOptions($allowedOptions)
+    {
+        if (is_array($allowedOptions)) {
+            $this->allowed_options = $allowedOptions;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Verify that a configuration option has been set
+     *
+     * @param string $optionName the option name 
+     *
+     * @return boolean
+     * @access protected
+     */
+    function hasBeenSet($optionName)
+    {
+        return isset($this->$optionName);
+    }
+
+    /**
+     * Getter to allowed Configurations Options 
+     *
+     * @return array The options you can set to Container
+     * @access protected
+     */
+    function getAllowedOptions()
+    {
+        return $this->allowed_options;
+    }
 
     /**
     * Encodes the data for the storage container.

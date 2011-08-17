@@ -88,15 +88,17 @@ class Cache_Container_mdb extends Cache_Container
      */
     function Cache_Container_mdb($options)
     {
+        $this->setAllowedOptions(array('dsn', 'cache_table'));
+        $this->setOptions($options);
         $this->db = &MDB::Connect($options);
         if (MDB::isError($this->db)) {
-           return new Cache_Error('MDB::connect failed: '
-                    . $this->db->getMessage(), __FILE__, __LINE__);
+            return new Cache_Error(
+                'MDB::connect failed: '
+                . $this->db->getMessage(), __FILE__, __LINE__
+            );
         } else {
             $this->db->setFetchMode(MDB_FETCHMODE_ASSOC);
         }
-        $this->setOptions($options, array_merge($this->allowed_options,
-                                         array('dsn', 'cache_table')));
     }
 
     /**

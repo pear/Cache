@@ -111,14 +111,17 @@ class Cache_Container_dbx extends Cache_Container
 
     function Cache_Container_dbx($options)
     {
-        if (!is_array($options) ) {
-            return new Cache_Error('No options specified!', __FILE__, __LINE__);
-        }
+        $this->setAllowedOptions(
+            array(
+                'module','host','db','username',
+                'password', 'cache_table', 'persistent'
+            )
+        );
+        $this->setOptions($options);
 
-        $this->setOptions($options,  array_merge($this->allowed_options, array('module','host','db','username','password', 'cache_table', 'persistent')));
-
-        if (!$this->module)
+        if (!$this->hasBeenSet('module')) {
             return new Cache_Error('No module specified!', __FILE__, __LINE__);
+        }
 
         $this->db = dbx_connect($this->module, $this->host, $this->db, $this->username, $this->password, $this->persistent);
 

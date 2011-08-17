@@ -81,15 +81,13 @@ class Cache_Container_db extends Cache_Container
 
     function Cache_Container_db($options)
     {
-        if (!is_array($options) || !isset($options['dsn'])) {
+        $this->setAllowedOptions(array('dsn', 'cache_table'));
+        $this->setOptions($options);
+        if (!$this->hasBeenSet('dsn'))
+        {
             return new Cache_Error('No dsn specified!', __FILE__, __LINE__);
         }
 
-        $this->setOptions($options,  array_merge($this->allowed_options, array('dsn', 'cache_table')));
-
-        if (!$this->dsn) {
-            return new Cache_Error('No dsn specified!', __FILE__, __LINE__);
-        }
         $this->db = DB::connect($this->dsn, true);
         if (PEAR::isError($this->db)) {
             return new Cache_Error('DB::connect failed: ' . DB::errorMessage($this->db), __FILE__, __LINE__);

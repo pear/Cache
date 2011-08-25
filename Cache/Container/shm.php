@@ -273,7 +273,7 @@ class Cache_Container_shm extends Cache_Container
             // ugly but simple to implement :/
             $size = strlen($this->encode($data));
             $this->entries[$size][] = array(
-            	'group' => $group,
+                'group' => $group,
                 'id'    => $id
             );
 

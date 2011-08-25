@@ -116,19 +116,23 @@ class Cache_Container_phplib extends Cache_Container
     *                   see $local_path for some hints.s
     * @see  $local_path
     */
-    function Cache_Container_phplib($options = '')
+    function Cache_Container_phplib($options = null)
     {
-        if (is_array($options)) {
-            $this->setOptions($options,  array_merge($this->allowed_options, array('db_class', 'db_file', 'db_path', 'local_file', 'local_path')));
-        }
-        if (!$this->db_class) {
-            return new Cache_Error('No database class specified.', __FILE__, __LINE__);
+        $this->setAllowedOptions(
+            array('db_class', 'db_file', 'db_path', 'local_file', 'local_path')
+        );
+        $this->setOptions($options)
+        if (!$this->hasBeenSet('db_class')) {
+            return new Cache_Error(
+                'No database class specified.', 
+                __FILE__, __LINE__
+            );
         }
         // include the required files
-        if ($this->db_file) {
+        if ($this->hasBeenSet('db_file')) {
             include_once $this->db_path . $this->db_file;
         }
-        if ($this->local_file) {
+        if ($this->hasBeenSet('local_file')) {
             include_once $this->local_path . $this->local_file;
         }
         // create a db object 

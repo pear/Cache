@@ -106,26 +106,25 @@ class Cache_Container_shm extends Cache_Container
     *
     * @param array    shm_key, sem_key, shm_size, sem_perm, shm_perm
     */    
-    function Cache_Container_shm($options = '')
+    function Cache_Container_shm($options = null)
     {
-        if (is_array($options)) {
-            $this->setOptions($options, array_merge($this->allowed_options, 
-                                                    array('shm_key',  'sem_key', 
-                                                          'shm_size', 'sem_perm',
-                                                          'shm_perm'
-                                                         )
-                                        )
-                               );
-        }
+        $this->setAllowedOptions(
+            array('shm_key',  'sem_key', 
+                  'shm_size', 'sem_perm',
+                  'shm_perm'
+                 )
+        );
+        $this->setOptions($options)
+
         // Cache::Container high- and lowwater defaults should be overridden if
         // not already done by the user
-        if (!isset($options['highwater'])) { 
+        if (!$this->hasBeenSet('highwater')) { 
             $this->highwater = round(0.75 * 131072);
         }
-        if (!isset($options['lowwater'])) {
+        if (!$this->hasBeenSet('lowwater')) {
             $this->lowwater = round(0.5 * 131072);
         }
-        if (!isset($options['shm_size'])) {
+        if (!$this->hasBeenSet('shm_size')) {
             $this->shm_size = 131072;
         }
         //get SHM and Semaphore handles

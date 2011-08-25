@@ -133,8 +133,14 @@ class Cache extends PEAR
         $container_class = 'Cache_Container_' . $container;
         $container_classfile = 'Cache/Container/' . $container . '.php';
 
-        include_once $container_classfile;
-        $this->container = new $container_class($container_options);
+        @include_once $container_classfile;
+        if (class_exists($container_class)) {
+                $this->container = new $container_class($container_options);
+        } else {
+            $this->container = new Cache_Error(
+                "The Container requested {$container} is not supported"
+            );
+        }
     }
 
     //deconstructor

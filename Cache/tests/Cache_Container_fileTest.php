@@ -48,10 +48,8 @@ class Cache_Container_fileTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testhasBeenSet() {
-        $this->AssertTrue($this->Cache_Container_file->hasBeenSet('cache_dir'));
-    }
-    public function testhasNotBeenSet() {
         $this->AssertFalse($this->Cache_Container_file->hasBeenSet('propertynotset'));
+        $this->AssertTrue($this->Cache_Container_file->hasBeenSet('cache_dir'));
     }
     public function testAllowedOptions(){
         $this->AssertEquals($this->allowedOptions,

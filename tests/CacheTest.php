@@ -27,17 +27,9 @@ class CacheTest extends PHPUnit_Framework_TestCase {
      * Cleans up the environment after running a test.
      */
     protected function tearDown() {
-        // TODO Auto-generated CacheTest::tearDown()
-
         $this->Cache = null;
 
         parent::tearDown ();
-    }
-
-    /**
-     * Constructs the test case.
-     */
-    public function __construct() {
     }
 
     /**
@@ -45,35 +37,36 @@ class CacheTest extends PHPUnit_Framework_TestCase {
      */
     public function testCacheNoContainer() {
         $this->Cache = New Cache('_otherContainer_');
-        $this->assertType('Cache_Error', $this->Cache->container);
+        $this->assertInstanceOf('Cache_Error', $this->Cache->container);
+        
     }
     public function testCacheCoveredContainer() {
         $this->Cache = New Cache('file');
-        $this->assertType('Cache_Container_file', $this->Cache->container);
+        $this->assertInstanceOf('Cache_Container_file', $this->Cache->container);
+    }
+    public function testCacheInvalidOptionType() {
+        $this->Cache = New Cache('file', 'wrong_parameter_type_need_be_array');
+        $this->assertInstanceOf('Cache_Error', $this->Cache->container);
     }
 
-/*
     /**
-     * Tests Cache->_Cache()
-     */
-    public function test_Cache() {
-        // TODO Auto-generated CacheTest->test_Cache()
-        $this->markTestIncomplete ( "_Cache test not implemented" );
-
-        $this->Cache->_Cache(/* parameters */);
-
+    * Test Cache setCaching
+    */
+    public function testCachegetCaching() {
+        $this->Cache = New Cache('file');
+        $this->assertTrue($this->Cache->getCaching());
+        $this->Cache->setCaching(false);
+        $this->assertFalse($this->Cache->getCaching());
     }
-
     /**
      * Tests Cache->generateID()
      */
     public function testGenerateID() {
-		$this->Cache = New Cache('file');
-		$name = 'samplename';
-		$expectedID = '2081d6c6cc5f4593df2c149db6b30eda';
-		$id = $this->Cache->generateID($name);
-		$this->assertEquals($expectedID, $id);
-
+        $this->Cache = New Cache('file');
+        $name = 'samplename';
+        $expectedID = '2081d6c6cc5f4593df2c149db6b30eda';
+        $id = $this->Cache->generateID($name);
+        $this->assertEquals($expectedID, $id);
     }
 
 }

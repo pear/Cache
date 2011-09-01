@@ -19,10 +19,9 @@ class Cache_Container_fileTest extends PHPUnit_Framework_TestCase {
      */
     protected function setUp() {
         parent::setUp ();
-        $config                 = Array('cache_dir'=>'/tmp/','filename_prefix'=>'test');
+        $config                 = Array('cache_dir'=>sys_get_temp_dir(),'filename_prefix'=>'test');
         $this->allowedOptions     = Array('cache_dir', 'filename_prefix', 'max_userdata_linelength');
         $this->Cache_Container_file = new Cache_Container_file('file', $config);
-
     }
 
     /**
@@ -44,7 +43,7 @@ class Cache_Container_fileTest extends PHPUnit_Framework_TestCase {
      * Tests Cache_Container_file->Cache_Container_file()
      */
     public function testCache_Container_file() {
-        $this->assertType('Cache_Container_file', $this->Cache_Container_file);
+        $this->assertInstanceOf('Cache_Container_file', $this->Cache_Container_file);
     }
 
     public function testhasBeenSet() {

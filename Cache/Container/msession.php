@@ -83,18 +83,23 @@ class Cache_Container_msession extends Cache_Container
     
     function Cache_Container_msession($options = '')
     {
-        if (is_array($options)) {
-            $this->setOptions($options, array_merge($this->allowed_options, array('id_length', 'uniq', 'host', 'port', 'connect')));
-        }
-        if ($connect) {            
+        $this->setAllowedOptions(
+            array('id_length', 'uniq', 'host', 'port', 'connect')
+        );
+        $this->setOptions($options)
+        if ($connect) {
             if ($this->host == null) {
                 new Cache_Error('No host specified.', __FILE__, __LINE__);
             }
-            if ($this->port == null) {
+            if (!$this->hasBeenSet('port')) {
                 new Cache_Error('No port specified.', __FILE__, __LINE__);
             }
             if (!($this->ms = msession_connect($this->host, $this->port))) {
-                new Cache_Error('Can not connect to the sever using host "' . $this->host . '" on port "' . $this->port . '"', __FILE__, __LINE__);
+                new Cache_Error(
+                    'Can not connect to the sever using host "' . 
+                    $this->host . '" on port "' . $this->port . '"',
+                    __FILE__, __LINE__
+                );
             }
         }
         

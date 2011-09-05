@@ -111,9 +111,10 @@ class Cache extends PEAR
     var $gc_maxlifetime = 86400;
 
     /**
-    * Storage container object.
+    * Storage container if sucess in load it
+    * and a Cache_Error if not
     *
-    * @var  object Cache_Container
+    * @var  Cache_Container|Cache_Error $container
     */
     var $container;
 
@@ -122,19 +123,35 @@ class Cache extends PEAR
     //
 
     /**
+    * this Constructor set the Container Property as 
+    * a Cache_Container|Cache_Error Object.
+    * it Depends if a container is sucessfully  load
+    * if not, a Cache_Error is set
     *
     * @param    string  Name of container class
     * @param    array   Array with container class options
     */
-    function Cache($container, $container_options = '')
+    function Cache($container, $container_options = null)
     {
+        if (!is_array($container_options) && !is_null($container_options)) {
+            $this->container = new Cache_Error(
+                "Cache-Error: container Options must be empty or an Array"
+            );
+            return;
+        }
         $this->PEAR();
         $container = strtolower($container);
         $container_class = 'Cache_Container_' . $container;
         $container_classfile = 'Cache/Container/' . $container . '.php';
 
-        include_once $container_classfile;
-        $this->container = new $container_class($container_options);
+        @include_once $container_classfile;
+        if (class_exists($container_class)) {
+                $this->container = new $container_class($container_options);
+        } else {
+            $this->container = new Cache_Error(
+                "The Container requested {$container} is not supported"
+            );
+        }
     }
 
     //deconstructor

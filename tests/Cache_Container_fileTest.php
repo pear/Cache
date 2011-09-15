@@ -2,7 +2,7 @@
 
 require_once 'Cache/Container/file.php';
 
-require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'PHPUnit/Autoload.php';
 
 /**
  * Cache_Container_file test case.

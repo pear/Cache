@@ -1,8 +1,7 @@
 <?php
-
 require_once 'Cache.php';
 
-require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'PHPUnit/Autoload.php';
 
 /**
  * Cache test case.
@@ -38,7 +37,7 @@ class CacheTest extends PHPUnit_Framework_TestCase {
     public function testCacheNoContainer() {
         $this->Cache = New Cache('_otherContainer_');
         $this->assertInstanceOf('Cache_Error', $this->Cache->container);
-        
+
     }
     public function testCacheCoveredContainer() {
         $this->Cache = New Cache('file');

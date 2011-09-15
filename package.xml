@@ -25,7 +25,7 @@ between applications.</description>
   <active>no</active>
  </developer>
  <date>2011-09-15</date>
- <time>14:25:11</time>
+ <time>14:55:34</time>
  <version>
   <release>1.5.7</release>
   <api>1.5.5</api>
@@ -61,9 +61,10 @@ Bug #18743 Unit Tests
    <file baseinstalldir="/" md5sum="e4ef87f418975dfbb05a6b97f525fa8f" name="/Cache/Container/shm.php" role="php" />
    <file baseinstalldir="/" md5sum="f7f06e2f7e1745ea6ecc71db8f02796f" name="/Cache/Container/trifile.php" role="php" />
    <file baseinstalldir="/" md5sum="55b2404f731ae37b63f44c3b07c1c028" name="/Cache/HTTP/Request.php" role="php" />
-   <file baseinstalldir="/" md5sum="7fbe0f43de6a20fc03482b2025bf4d65" name="/tests/AllTests.php" role="php" />
-   <file baseinstalldir="/" md5sum="da1083d0561f37845e1a862cd3c89a3f" name="/tests/CacheTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="6bb0dfeabede578d2db08946478ae278" name="/tests/Cache_Container_fileTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="fd44f930c3af339f15c4a9a956d10130" name="/tests/AllTests.php" role="php" />
+   <file baseinstalldir="/" md5sum="27f217e97e2a11b8d9fb2611b0fce916" name="/tests/CacheTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="bb82cf7cbd371a2a8749b9dca419d6da" name="/tests/Cache_ContainerTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="93c1793cb703d5eff3bb4ed75b244d0c" name="/tests/Cache_Container_fileTest.php" role="php" />
    <file baseinstalldir="/" md5sum="45d4f2306ab31ac902b7d75e9e0d39d4" name="/tests/phpunit.xml" role="data" />
    <file baseinstalldir="/" md5sum="e3b4238448c4770661cf8527f42b348c" name="Cache.php" role="php" />
   </dir>

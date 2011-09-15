@@ -1,6 +1,6 @@
 <?php
 
-require_once 'PHPUnit/Framework/TestSuite.php';
+require_once 'PHPUnit/Autoload.php';
 
 require_once 'CacheTest.php';
 require_once 'Cache_ContainerTest.php';
@@ -9,7 +9,7 @@ require_once 'Cache_Container_fileTest.php';
 /**
  * Static test suite.
  */
-class testSuite extends PHPUnit_Framework_TestSuite {
+class Cache_testSuite extends PHPUnit_Framework_TestSuite {
 
     /**
      * Constructs the test suite handler.

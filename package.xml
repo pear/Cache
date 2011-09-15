@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.4" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                      http://pear.php.net/dtd/tasks-1.0.xsd                      http://pear.php.net/dtd/package-2.0                      http://pear.php.net/dtd/package-2.0.xsd">
+ <name>Cache</name>
+ <channel>pear.php.net</channel>
+ <summary>Framework for caching of arbitrary data.</summary>
+ <description>With the PEAR Cache you can cache the result of certain function
+calls, as well as the output of a whole script run or share data
+between applications.</description>
+ <lead>
+  <name>Christian Stocker</name>
+  <user>chregu</user>
+  <email>chregu@php.net</email>
+  <active>no</active>
+ </lead>
+ <lead>
+  <name>Helgi Þormar</name>
+  <user>dufuz</user>
+  <email>dufuz@php.net</email>
+  <active>no</active>
+ </lead>
+ <developer>
+  <name>Ulf Wendel</name>
+  <user>uw</user>
+  <email>ulf.wendel@phpdoc.de</email>
+  <active>no</active>
+ </developer>
+ <date>2011-09-15</date>
+ <time>14:55:34</time>
+ <version>
+  <release>1.5.7</release>
+  <api>1.5.5</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.php.net/license">PHP License</license>
+ <notes>
+QA release
+Bug #18409 package.xml invalid, not installable with pyrus
+Bug #18734 proposal of code to start new features
+Bug #18742 container Constructor fail
+Bug #18743 Unit Tests
+ </notes>
+ <contents>
+  <dir baseinstalldir="/" name="/">
+   <file baseinstalldir="/" md5sum="026358693f5f7718aab490b3b069e08c" name="/Cache/Application.php" role="php" />
+   <file baseinstalldir="/" md5sum="5be55e65a4bc6b1ce6e4389c7144cc01" name="/Cache/Container.php" role="php" />
+   <file baseinstalldir="/" md5sum="f4d9a72fe95075e9c74e4a80dcaf7329" name="/Cache/Error.php" role="php" />
+   <file baseinstalldir="/" md5sum="eca50102508742845591e14b9e0f91b2" name="/Cache/Function.php" role="php" />
+   <file baseinstalldir="/" md5sum="66cbf2681bd8b4b233e63f381231354d" name="/Cache/Graphics.php" role="php" />
+   <file baseinstalldir="/" md5sum="2b3604cbc488f4073b9c99a38e9c090e" name="/Cache/Output.php" role="php" />
+   <file baseinstalldir="/" md5sum="8743558261964bde1b2c7afaaa5aec23" name="/Cache/OutputCompression.php" role="php" />
+   <file baseinstalldir="/" md5sum="279a24a459e6b2fa91275f42f0aea78c" name="/Cache/Container/db.php" role="php" />
+   <file baseinstalldir="/" md5sum="16546dfbe773f97dfeb37703a09a3b9f" name="/Cache/Container/dbx.php" role="php" />
+   <file baseinstalldir="/" md5sum="019e97eb165fba6e700ced2e4def74aa" name="/Cache/Container/file.php" role="php" />
+   <file baseinstalldir="/" md5sum="51775b849bf1179638f2a598b73615f1" name="/Cache/Container/mdb.php" role="php" />
+   <file baseinstalldir="/" md5sum="f769958f25c4b7d56835c7366392dad4" name="/Cache/Container/mdb_cache_schema.xml" role="data" />
+   <file baseinstalldir="/" md5sum="c5d4bcfe5e02f53473c27e9eb7ed8110" name="/Cache/Container/msession.php" role="php" />
+   <file baseinstalldir="/" md5sum="fdd514ab5ca028045250fa219a611d20" name="/Cache/Container/phplib.php" role="php" />
+   <file baseinstalldir="/" md5sum="e4ef87f418975dfbb05a6b97f525fa8f" name="/Cache/Container/shm.php" role="php" />
+   <file baseinstalldir="/" md5sum="f7f06e2f7e1745ea6ecc71db8f02796f" name="/Cache/Container/trifile.php" role="php" />
+   <file baseinstalldir="/" md5sum="55b2404f731ae37b63f44c3b07c1c028" name="/Cache/HTTP/Request.php" role="php" />
+   <file baseinstalldir="/" md5sum="fd44f930c3af339f15c4a9a956d10130" name="/tests/AllTests.php" role="php" />
+   <file baseinstalldir="/" md5sum="27f217e97e2a11b8d9fb2611b0fce916" name="/tests/CacheTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="bb82cf7cbd371a2a8749b9dca419d6da" name="/tests/Cache_ContainerTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="93c1793cb703d5eff3bb4ed75b244d0c" name="/tests/Cache_Container_fileTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="45d4f2306ab31ac902b7d75e9e0d39d4" name="/tests/phpunit.xml" role="data" />
+   <file baseinstalldir="/" md5sum="e3b4238448c4770661cf8527f42b348c" name="Cache.php" role="php" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>4.3.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.7.0</min>
+   </pearinstaller>
+   <package>
+    <name>PEAR</name>
+    <channel>pear.php.net</channel>
+    <min>1.7.0</min>
+   </package>
+  </required>
+  <optional>
+   <package>
+    <name>HTTP_Request</name>
+    <channel>pear.php.net</channel>
+   </package>
+  </optional>
+ </dependencies>
+ <phprelease />
+ <changelog>
+  <release>
+   <version>
+    <release>1.5.4</release>
+    <api>1.5.4</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2004-04-01</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+- Removed Cache_DB as it apparently never really worked.
+- Added trifile container. See http://atomized.org/PEAR/Cache_trifile.html for more information. (By Ian Eure)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.5.5RC1</release>
+    <api>1.5.5RC1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2005-04-29</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+- Bug #1999 typo fix by Ian Eure, prevented the saving of $userdata in Trifile container
+- PHP Bug #25134 / PEAR bug #2955, typo fix by Greg in msession container, disallowed id_length
+- Bug #2749, flush() done 2x in a row gave error about none existing directory.
+- ETag made RFC compailant in OutputCompression (by mike)
+- Bug #3515 typo fix in file container, spotted by Girish dot Nair1 at cognizant dot com
+- CS fixes
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.5.5RC2</release>
+    <api>1.5.5RC2</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2005-05-18</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+- package.xml was giving errors when installed because of new line at the end.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.5.5RC3</release>
+    <api>1.5.5RC3</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2005-05-25</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+- Fixed bug #4429 Call-time pass-by-reference has been deprecated
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.5.5RC4</release>
+    <api>1.5.5RC4</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2005-09-14</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+- Fixed Bug #4449 XML errors during installation
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.5.6</release>
+    <api>1.5.5</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2010-10-25</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+Automatically built QA release
+Bug #17020 PHP-Error - doconnor
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.5.7</release>
+    <api>1.5.5</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2011-09-15</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+QA release
+Bug #18409 package.xml invalid, not installable with pyrus
+Bug #18734 proposal of code to start new features
+Bug #18742 container Constructor fail
+Bug #18743 Unit Tests
+   </notes>
+  </release>
+ </changelog>
+</package>

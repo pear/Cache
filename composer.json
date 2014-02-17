@@ -1,0 +1,41 @@
+{
+    "authors": [
+        {
+            "email": "chregu@php.net",
+            "name": "Christian Stocker",
+            "role": "Lead"
+        },
+        {
+            "email": "dufuz@php.net",
+            "name": "Helgi \u00deormar",
+            "role": "Lead"
+        },
+        {
+            "email": "ulf.wendel@phpdoc.de",
+            "name": "Ulf Wendel",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "Cache": "./"
+        }
+    },
+    "description": "More info available on: http://pear.php.net/package/Cache",
+    "include-path": [
+        "./"
+    ],
+    "license": "PHP License",
+    "name": "pear/cache",
+    "support": {
+        "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=Cache",
+        "source": "https://github.com/pear/Cache"
+    },
+    "type": "library",
+    "require": {
+        "pear/pear_exception": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    }
+}

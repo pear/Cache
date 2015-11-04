@@ -1,8 +1,6 @@
 <?php
 require_once 'Cache.php';
 
-require_once 'PHPUnit/Framework/TestCase.php';
-
 /**
  * Cache_Container test case.
  */

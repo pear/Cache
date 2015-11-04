@@ -1,8 +1,6 @@
 <?php
 require_once 'Cache.php';
 
-require_once 'PHPUnit/Autoload.php';
-
 /**
  * Cache test case.
  */

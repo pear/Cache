@@ -24,60 +24,60 @@ require_once 'MDB.php';
 require_once 'Cache/Container.php';
 
 /**
-* PEAR/MDB Cache Container.
-*
-* NB: The field 'changed' has no meaning for the Cache itself. It's just there
-* because it's a good idea to have an automatically updated timestamp
-* field for debugging in all of your tables.
-*
-* A XML MDB-compliant schema example for the table needed is provided.
-* Look at the file "mdb_cache_schema.xml" for that.
-*
-* ------------------------------------------
-* A basic usage example:
-* ------------------------------------------
-*
-* $dbinfo = array(
-*   'database'    => 'dbname',
-*   'phptype'     => 'mysql',
-*   'username'    => 'root',
-*   'password'    => '',
-*   'cache_table' => 'cache'
-* );
-*
-*
-* $cache = new Cache('mdb', $dbinfo);
-* $id = $cache->generateID('testentry');
-*
-* if ($data = $cache->get($id)) {
-*    echo 'Cache hit.<br />Data: '.$data;
-*
-* } else {
-*   $data = 'data of any kind';
-*   $cache->save($id, $data);
-*   echo 'Cache miss.<br />';
-* }
-*
-* ------------------------------------------
-*
-* @author   Lorenzo Alberton <l.alberton at quipo.it>
-* @version  $Id$
-* @package  Cache
-*/
+ * PEAR/MDB Cache Container.
+ *
+ * NB: The field 'changed' has no meaning for the Cache itself. It's just there
+ * because it's a good idea to have an automatically updated timestamp
+ * field for debugging in all of your tables.
+ *
+ * A XML MDB-compliant schema example for the table needed is provided.
+ * Look at the file "mdb_cache_schema.xml" for that.
+ *
+ * ------------------------------------------
+ * A basic usage example:
+ * ------------------------------------------
+ *
+ * $dbinfo = array(
+ *   'database'    => 'dbname',
+ *   'phptype'     => 'mysql',
+ *   'username'    => 'root',
+ *   'password'    => '',
+ *   'cache_table' => 'cache'
+ * );
+ *
+ *
+ * $cache = new Cache('mdb', $dbinfo);
+ * $id = $cache->generateID('testentry');
+ *
+ * if ($data = $cache->get($id)) {
+ *    echo 'Cache hit.<br />Data: '.$data;
+ *
+ * } else {
+ *   $data = 'data of any kind';
+ *   $cache->save($id, $data);
+ *   echo 'Cache miss.<br />';
+ * }
+ *
+ * ------------------------------------------
+ *
+ * @author  Lorenzo Alberton <l.alberton at quipo.it>
+ * @version $Id$
+ * @package Cache
+ */
 class Cache_Container_mdb extends Cache_Container
 {
 
     /**
      * Name of the MDB table to store caching data
      *
-     * @see  Cache_Container_file::$filename_prefix
+     * @see Cache_Container_file::$filename_prefix
      */
     var $cache_table = '';
 
     /**
      * PEAR MDB object
      *
-     * @var  object PEAR_MDB
+     * @var object PEAR_MDB
      */
     var $db;
 
@@ -86,7 +86,7 @@ class Cache_Container_mdb extends Cache_Container
      *
      * @param mixed Array with connection info or dsn string
      */
-    function Cache_Container_mdb($options)
+    function __construct($options)
     {
         $this->setAllowedOptions(array('dsn', 'cache_table'));
         $this->setOptions($options);
@@ -104,10 +104,10 @@ class Cache_Container_mdb extends Cache_Container
     /**
      * Fetch in the db the data that matches input parameters
      *
-     * @param    string  dataset ID
-     * @param    string  cache group
-     * @return   mixed   dataset value or null/Cache_Error on failure
-     * @access   public
+     * @param  string  dataset ID
+     * @param  string  cache group
+     * @return mixed   dataset value or null/Cache_Error on failure
+     * @access public
      */
     function fetch($id, $group)
     {
@@ -119,14 +119,19 @@ class Cache_Container_mdb extends Cache_Container
                 //no rows returned
                 $data = array(null, null, null);
             } else {
-                $clob = $this->db->fetchClob($res,0,'cachedata');
+                $clob = $this->db->fetchClob($res, 0, 'cachedata');
                 if (!MDB::isError($clob)) {
                     $cached_data = '';
                     while(!$this->db->endOfLOB($clob)) {
-                        if (MDB::isError($error =
-                                    $this->db->readLob($clob,$data,8000)<0)) {
-                            return new Cache_Error('MDB::query failed: '
-                                    . $error->getMessage(), __FILE__, __LINE__);
+                        if (MDB::isError(
+                            $error =
+                            $this->db->readLob($clob, $data, 8000)<0
+                        )
+                        ) {
+                            return new Cache_Error(
+                                'MDB::query failed: '
+                                . $error->getMessage(), __FILE__, __LINE__
+                            );
                         }
                         $cached_data .= $data;
                     }
@@ -153,8 +158,10 @@ class Cache_Container_mdb extends Cache_Container
                         $data = array(null, null, null);
                     }
                 } else {
-                    return new Cache_Error('MDB::query failed: '
-                             . $clob->getMessage(), __FILE__, __LINE__);
+                    return new Cache_Error(
+                        'MDB::query failed: '
+                        . $clob->getMessage(), __FILE__, __LINE__
+                    );
                 }
             }
             $this->db->freeResult($res);
@@ -172,24 +179,26 @@ class Cache_Container_mdb extends Cache_Container
 
         $res = $this->db->query($query);
         if (MDB::isError($res)) {
-            return new Cache_Error('MDB::query failed: '
-                . $this->db->errorMessage($res), __FILE__, __LINE__);
+            return new Cache_Error(
+                'MDB::query failed: '
+                . $this->db->errorMessage($res), __FILE__, __LINE__
+            );
         }
         return $data;
     }
 
-   /**
+    /**
      * Stores a dataset in the database
      *
      * If dataset_ID already exists, overwrite it with new data,
      * else insert data in a new record.
      *
-     * @param    string  dataset ID
-     * @param    mixed   data to be cached
-     * @param    integer expiration time
-     * @param    string  cache group
-     * @param    string  userdata
-     * @access   public
+     * @param  string  dataset ID
+     * @param  mixed   data to be cached
+     * @param  integer expiration time
+     * @param  string  cache group
+     * @param  string  userdata
+     * @access public
      */
     function save($id, $data, $expires, $group, $userdata)
     {
@@ -221,8 +230,10 @@ class Cache_Container_mdb extends Cache_Container
 
         if (MDB::isError($result)) {
             //Var_Dump::display($result);
-            return new Cache_Error('MDB::query failed: '
-                    . $this->db->errorMessage($result), __FILE__, __LINE__);
+            return new Cache_Error(
+                'MDB::query failed: '
+                . $this->db->errorMessage($result), __FILE__, __LINE__
+            );
         }
         unset($fields); //end first part of query
         $query2 = 'UPDATE '   . $this->cache_table
@@ -236,30 +247,36 @@ class Cache_Container_mdb extends Cache_Container
                             'Data' => $this->encode($data)
                         );
             if (!MDB::isError($clob = $this->db->createLob($char_lob))) {
-                $this->db->setParamClob($prepared_query,1,$clob,'cachedata');
-                if(MDB::isError($error=$this->db->executeQuery($prepared_query))) {
-                    return new Cache_Error('MDB::query failed: '
-                            . $error->getMessage() , __FILE__, __LINE__);
+                $this->db->setParamClob($prepared_query, 1, $clob, 'cachedata');
+                if(MDB::isError($error = $this->db->executeQuery($prepared_query))) {
+                    return new Cache_Error(
+                        'MDB::query failed: '
+                        . $error->getMessage(), __FILE__, __LINE__
+                    );
                 }
                 $this->db->destroyLob($clob);
             } else {
                 // creation of the handler object failed
-                return new Cache_Error('MDB::query failed: '
-                        . $clob->getMessage() , __FILE__, __LINE__);
+                return new Cache_Error(
+                    'MDB::query failed: '
+                    . $clob->getMessage(), __FILE__, __LINE__
+                );
             }
             $this->db->freePreparedQuery($prepared_query);
         } else {
             //prepared query failed
-            return new Cache_Error('MDB::query failed: '
-                    . $prepared_query->getMessage() , __FILE__, __LINE__);
+            return new Cache_Error(
+                'MDB::query failed: '
+                . $prepared_query->getMessage(), __FILE__, __LINE__
+            );
         }
     }
 
     /**
      * Removes a dataset from the database
      *
-     * @param    string  dataset ID
-     * @param    string  cache group
+     * @param string  dataset ID
+     * @param string  cache group
      */
     function remove($id, $group)
     {
@@ -271,8 +288,10 @@ class Cache_Container_mdb extends Cache_Container
 
         $res = $this->db->query($query);
         if (MDB::isError($res)) {
-            return new Cache_Error('MDB::query failed: '
-                    . $this->db->errorMessage($res), __FILE__, __LINE__);
+            return new Cache_Error(
+                'MDB::query failed: '
+                . $this->db->errorMessage($res), __FILE__, __LINE__
+            );
         }
     }
 
@@ -280,7 +299,7 @@ class Cache_Container_mdb extends Cache_Container
      * Remove all cached data for a certain group, or empty
      * the cache table if no group is specified.
      *
-     * @param    string  cache group
+     * @param string  cache group
      */
     function flush($group = '')
     {
@@ -295,17 +314,19 @@ class Cache_Container_mdb extends Cache_Container
 
         $res = $this->db->query($query);
         if (MDB::isError($res)) {
-            return new Cache_Error('MDB::query failed: '
-                . $this->db->errorMessage($res), __FILE__, __LINE__);
+            return new Cache_Error(
+                'MDB::query failed: '
+                . $this->db->errorMessage($res), __FILE__, __LINE__
+            );
         }
     }
 
     /**
      * Check if a dataset ID/group exists.
      *
-     * @param    string  dataset ID
-     * @param    string  cache group
-     * @return   boolean
+     * @param  string  dataset ID
+     * @param  string  cache group
+     * @return boolean
      */
     function idExists($id, $group)
     {
@@ -315,8 +336,10 @@ class Cache_Container_mdb extends Cache_Container
         echo $query;
         $res = $this->db->query($query);
         if (MDB::isError($res)) {
-            return new Cache_Error('MDB::query failed: '
-                    . $this->db->errorMessage($res), __FILE__, __LINE__);
+            return new Cache_Error(
+                'MDB::query failed: '
+                . $this->db->errorMessage($res), __FILE__, __LINE__
+            );
         }
         $row = $this->db->fetchInto($res);
 
@@ -329,7 +352,7 @@ class Cache_Container_mdb extends Cache_Container
     /**
      * Garbage collector.
      *
-     * @param    int maxlifetime
+     * @param int maxlifetime
      */
     function garbageCollection($maxlifetime)
     {
@@ -345,8 +368,10 @@ class Cache_Container_mdb extends Cache_Container
 
         $cachesize = $this->db->getOne($query);
         if (MDB::isError($cachesize)) {
-            return new Cache_Error('MDB::query failed: '
-                   . $this->db->errorMessage($cachesize), __FILE__, __LINE__);
+            return new Cache_Error(
+                'MDB::query failed: '
+                . $this->db->errorMessage($cachesize), __FILE__, __LINE__
+            );
         }
         //if cache is to big.
         if ($cachesize > $this->highwater) {
@@ -356,13 +381,15 @@ class Cache_Container_mdb extends Cache_Container
 
             $res = $this->db->query($query);
             if (MDB::isError($res)) {
-               return new Cache_Error('MDB::query failed: '
-                    . $this->db->errorMessage($res), __FILE__, __LINE__);
+                return new Cache_Error(
+                    'MDB::query failed: '
+                    . $this->db->errorMessage($res), __FILE__, __LINE__
+                );
             }
             $numrows = $this->db->numRows($res);
             $keep_size = 0;
             while ($keep_size < $this->lowwater && $numrows--) {
-                $entry = $this->db->fetchInto($res,MDB_FETCHMODE_ASSOC);
+                $entry = $this->db->fetchInto($res, MDB_FETCHMODE_ASSOC);
                 $keep_size += $entry['size'];
             }
 
@@ -372,8 +399,10 @@ class Cache_Container_mdb extends Cache_Container
 
             $res = $this->db->query($query);
             if (MDB::isError($res)) {
-               return new Cache_Error('MDB::query failed: '
-                    . $this->db->errorMessage($res), __FILE__, __LINE__);
+                return new Cache_Error(
+                    'MDB::query failed: '
+                    . $this->db->errorMessage($res), __FILE__, __LINE__
+                );
             }
         }
     }

@@ -44,7 +44,7 @@ require_once 'Cache.php';
 //
 // $app =& new Cache_Application();
 // $app->register('foo');
-// $app->register('bar', $bar); 
+// $app->register('bar', $bar);
 //
 // $foo = 'Different data';
 //
@@ -53,7 +53,7 @@ require_once 'Cache.php';
 //
 // As with session_register(), the contents of the variable at the *end* of the
 // request is registered and not at the point of registration. Therefore in this
-// example, for the $foo variable, the string 'Different data' is stored and not 
+// example, for the $foo variable, the string 'Different data' is stored and not
 // 'Some data'. The exception to this rule is if you use the second argument to
 // register() as in the second call to it above. This will cause the data supplied
 // in the second argument to be stored and not the contents at the end of the request.
@@ -79,12 +79,12 @@ class Cache_Application extends Cache
     var $registered_vars;
 
     /**
-    * Constructor
-    *
-    * @param    string  Name of container class
-    * @param    array   Array with container class options
-    */
-    function Cache_Application($container = 'file', $container_options = array('cache_dir' => '/tmp/', 'filename_prefix' => 'cache_'), $id = 'application_var', $group = 'application_cache')
+     * Constructor
+     *
+     * @param string  Name of container class
+     * @param array   Array with container class options
+     */
+    function __construct($container = 'file', $container_options = array('cache_dir' => '/tmp/', 'filename_prefix' => 'cache_'), $id = 'application_var', $group = 'application_cache')
     {
         $this->id    = $id;
         $this->group = $group;
@@ -103,11 +103,11 @@ class Cache_Application extends Cache
     }
 
     /**
-    * Destructor
-    *
-    * Gets values of all registered variables and stores them. Then calls save() to
-    * write data away.
-    */
+     * Destructor
+     *
+     * Gets values of all registered variables and stores them. Then calls save() to
+     * write data away.
+     */
     function _Cache_Application()
     {
         // Get contents of all registered variables
@@ -123,13 +123,13 @@ class Cache_Application extends Cache
     }
 
     /**
-    * register()
-    *
-    * Registers a variable to be stored.
-    *
-    * @param    string  Name of variable to register
-    * @param    mixed   Optional data to store
-    */
+     * register()
+     *
+     * Registers a variable to be stored.
+     *
+     * @param string  Name of variable to register
+     * @param mixed   Optional data to store
+     */
     function register($varname, $data = null)
     {
         if (isset($data)) {
@@ -140,12 +140,12 @@ class Cache_Application extends Cache
     }
 
     /**
-    * unregister()
-    *
-    * Unregisters a variable from being stored.
-    *
-    * @param    string  Name of variable to unregister
-    */
+     * unregister()
+     *
+     * Unregisters a variable from being stored.
+     *
+     * @param string  Name of variable to unregister
+     */
     function unregister($varname)
     {
         if (isset($this->data[$varname])) {
@@ -154,23 +154,23 @@ class Cache_Application extends Cache
     }
 
     /**
-    * clear()
-    *
-    * Removes all stored data
-    */
+     * clear()
+     *
+     * Removes all stored data
+     */
     function clear()
     {
         $this->data = array();
     }
 
     /**
-    * getData()
-    *
-    * Use this to get a reference to the data to manipulate
-    * in calling script. Eg. $_APP =& $obj->getData();
-    *
-    * @return mixed   A reference to the data
-    */
+     * getData()
+     *
+     * Use this to get a reference to the data to manipulate
+     * in calling script. Eg. $_APP =& $obj->getData();
+     *
+     * @return mixed   A reference to the data
+     */
     function &getData()
     {
         return $this->data;

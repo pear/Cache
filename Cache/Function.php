@@ -20,91 +20,90 @@
 require_once 'Cache.php';
 
 /**
-* Function_Cache
-*
-* Purpose:
-*
-*   Caching the result and output of functions.
-*
-* Example:
-*
-*   require_once 'Cache/Function.php';
-*
-*   class foo {
-*     function bar($test) {
-*       echo "foo::bar($test)<br>";
-*     }
-*   }
-*
-*   class bar {
-*     function foobar($object) {
-*       echo '$'.$object.'->foobar('.$object.')<br>';
-*     }
-*   }
-*
-*   $bar = new bar;
-*
-*   function foobar() {
-*     echo 'foobar()';
-*   }
-*
-*   $cache = new Cache_Function();
-*
-*   $cache->call('foo::bar', 'test');
-*   $cache->call('bar->foobar', 'bar');
-*   $cache->call('foobar');
-*
-* Note:
-* 
-*   You cannot cache every function. You should only cache 
-*   functions that only depend on their arguments and don't use
-*   global or static variables, don't rely on database queries or 
-*   files, and so on.
-* 
-* @author       Sebastian Bergmann <sb@sebastian-bergmann.de>
-* @module       Function_Cache
-* @modulegroup  Function_Cache
-* @package      Cache
-* @version      $Revision$
-* @access       public
-*/
+ * Function_Cache
+ *
+ * Purpose:
+ *
+ *   Caching the result and output of functions.
+ *
+ * Example:
+ *
+ *   require_once 'Cache/Function.php';
+ *
+ *   class foo {
+ *     function bar($test) {
+ *       echo "foo::bar($test)<br>";
+ *     }
+ *   }
+ *
+ *   class bar {
+ *     function foobar($object) {
+ *       echo '$'.$object.'->foobar('.$object.')<br>';
+ *     }
+ *   }
+ *
+ *   $bar = new bar;
+ *
+ *   function foobar() {
+ *     echo 'foobar()';
+ *   }
+ *
+ *   $cache = new Cache_Function();
+ *
+ *   $cache->call('foo::bar', 'test');
+ *   $cache->call('bar->foobar', 'bar');
+ *   $cache->call('foobar');
+ *
+ * Note:
+ *
+ *   You cannot cache every function. You should only cache
+ *   functions that only depend on their arguments and don't use
+ *   global or static variables, don't rely on database queries or
+ *   files, and so on.
+ *
+ * @author      Sebastian Bergmann <sb@sebastian-bergmann.de>
+ * @module      Function_Cache
+ * @modulegroup Function_Cache
+ * @package     Cache
+ * @version     $Revision$
+ * @access      public
+ */
 class Cache_Function extends Cache
 {
     var $expires;
 
     /**
-    * Constructor
-    *
-    * @param    string  Name of container class
-    * @param    array   Array with container class options
-    * @param    integer Number of seconds for which to cache
-    */
-    function Cache_Function($container  = 'file',
-                            $container_options = array('cache_dir'       => '.',
-                                                       'filename_prefix' => 'cache_'
-                                                      ),
-                            $expires = 3600
-                           )
-    {
-      $this->Cache($container, $container_options);
-      $this->expires = $expires;      
+     * Constructor
+     *
+     * @param string  Name of container class
+     * @param array   Array with container class options
+     * @param integer Number of seconds for which to cache
+     */
+    function __construct($container  = 'file',
+        $container_options = ['cache_dir' => '.',
+            'filename_prefix' => 'cache_'
+            ],
+        $expires = 3600
+    ) {
+        $this->Cache($container, $container_options);
+        $this->expires = $expires;
     }
 
     /**
-    * PEAR-Deconstructor
-    * Call deconstructor of parent
-    */
+     * PEAR-Deconstructor
+     * Call deconstructor of parent
+     */
     function _Cache_Function()
     {
         $this->_Cache();
     }
 
     /**
-    * Calls a cacheable function or method.
-    *
-    * @return mixed $result
-    * @access public
-    */
+     * Calls a cacheable function or method.
+     *
+     * @return mixed $result
+     * @access public
+     */
     function call()
     {
         // get arguments

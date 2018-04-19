@@ -23,68 +23,67 @@ require_once 'DB.php';
 require_once 'Cache/Container.php';
 
 /**
-* PEAR/DB Cache Container.
-*
-* WARNING: Other systems might or might not support certain datatypes of
-* the tables shown. As far as I know there's no large binary
-* type in SQL-92 or SQL-99. Postgres seems to lack any
-* BLOB or TEXT type, for MS-SQL you could use IMAGE, don't know
-* about other databases. Please add sugestions for other databases to
-* the inline docs.
-*
-* The field 'changed' has no meaning for the Cache itself. It's just there
-* because it's a good idea to have an automatically updated timestamp
-* field for debugging in all of your tables.
-*
-* For _MySQL_ you need this DB table:
-*
-* CREATE TABLE cache (
-*   id          CHAR(32) NOT null DEFAULT '',
-*   cachegroup  VARCHAR(127) NOT null DEFAULT '',
-*   cachedata   BLOB NOT null DEFAULT '',
-*   userdata    VARCHAR(255) NOT null DEFAULT '',
-*   expires     INT(9) NOT null DEFAULT 0,
-*
-*   changed     TIMESTAMP(14) NOT null,
-*
-*   INDEX (expires),
-*   PRIMARY KEY (id, cachegroup)
-* )
-*
-* @author   Sebastian Bergmann <sb@sebastian-bergmann.de>
-* @version  $Id$
-* @package  Cache
-*/
+ * PEAR/DB Cache Container.
+ *
+ * WARNING: Other systems might or might not support certain datatypes of
+ * the tables shown. As far as I know there's no large binary
+ * type in SQL-92 or SQL-99. Postgres seems to lack any
+ * BLOB or TEXT type, for MS-SQL you could use IMAGE, don't know
+ * about other databases. Please add sugestions for other databases to
+ * the inline docs.
+ *
+ * The field 'changed' has no meaning for the Cache itself. It's just there
+ * because it's a good idea to have an automatically updated timestamp
+ * field for debugging in all of your tables.
+ *
+ * For _MySQL_ you need this DB table:
+ *
+ * CREATE TABLE cache (
+ *   id          CHAR(32) NOT null DEFAULT '',
+ *   cachegroup  VARCHAR(127) NOT null DEFAULT '',
+ *   cachedata   BLOB NOT null DEFAULT '',
+ *   userdata    VARCHAR(255) NOT null DEFAULT '',
+ *   expires     INT(9) NOT null DEFAULT 0,
+ *
+ *   changed     TIMESTAMP(14) NOT null,
+ *
+ *   INDEX (expires),
+ *   PRIMARY KEY (id, cachegroup)
+ * )
+ *
+ * @author  Sebastian Bergmann <sb@sebastian-bergmann.de>
+ * @version $Id$
+ * @package Cache
+ */
 class Cache_Container_db extends Cache_Container
 {
 
     /**
-    * Name of the DB table to store caching data
-    *
-    * @see  Cache_Container_file::$filename_prefix
-    */
+     * Name of the DB table to store caching data
+     *
+     * @see Cache_Container_file::$filename_prefix
+     */
     var $cache_table = '';
 
     /**
-    * PEAR DB dsn to use.
-    *
-    * @var  string
-    */
+     * PEAR DB dsn to use.
+     *
+     * @var string
+     */
     var $dsn = '';
 
     /**
-    * PEAR DB object
-    *
-    * @var  object PEAR_DB
-    */
+     * PEAR DB object
+     *
+     * @var object PEAR_DB
+     */
     var $db;
 
-    function Cache_Container_db($options)
+    function __construct($options)
     {
         $this->setAllowedOptions(array('dsn', 'cache_table'));
         $this->setOptions($options);
-        if (!$this->hasBeenSet('dsn'))
-        {
+        if (!$this->hasBeenSet('dsn')) {
             return new Cache_Error('No dsn specified!', __FILE__, __LINE__);
         }
 
@@ -97,11 +96,12 @@ class Cache_Container_db extends Cache_Container
 
     function fetch($id, $group)
     {
-        $query = sprintf("SELECT cachedata, userdata, expires FROM %s WHERE id = '%s' AND cachegroup = '%s'",
-                         $this->cache_table,
-                         addslashes($id),
-                         addslashes($group)
-                         );
+        $query = sprintf(
+            "SELECT cachedata, userdata, expires FROM %s WHERE id = '%s' AND cachegroup = '%s'",
+            $this->cache_table,
+            addslashes($id),
+            addslashes($group)
+        );
 
         $res = $this->db->query($query);
 
@@ -116,11 +116,12 @@ class Cache_Container_db extends Cache_Container
         }
         // last used required by the garbage collection
         // WARNING: might be MySQL specific
-        $query = sprintf("UPDATE %s SET changed = (NOW() + 0) WHERE id = '%s' AND cachegroup = '%s'",
-                            $this->cache_table,
-                            addslashes($id),
-                            addslashes($group)
-                          );
+        $query = sprintf(
+            "UPDATE %s SET changed = (NOW() + 0) WHERE id = '%s' AND cachegroup = '%s'",
+            $this->cache_table,
+            addslashes($id),
+            addslashes($group)
+        );
 
         $res = $this->db->query($query);
 
@@ -131,29 +132,30 @@ class Cache_Container_db extends Cache_Container
     }
 
     /**
-    * Stores a dataset.
-    *
-    * WARNING: we use the SQL command REPLACE INTO this might be
-    * MySQL specific. As MySQL is very popular the method should
-    * work fine for 95% of you.
-    */
+     * Stores a dataset.
+     *
+     * WARNING: we use the SQL command REPLACE INTO this might be
+     * MySQL specific. As MySQL is very popular the method should
+     * work fine for 95% of you.
+     */
     function save($id, $data, $expires, $group, $userdata)
     {
         $this->flushPreload($id, $group);
 
-        $query = sprintf("REPLACE INTO %s (userdata, cachedata, expires, id, cachegroup) VALUES ('%s', '%s', %d, '%s', '%s')",
-                         $this->cache_table,
-                         addslashes($userdata),
-                         addslashes($this->encode($data)),
-                          $this->getExpiresAbsolute($expires) ,
-                         addslashes($id),
-                         addslashes($group)
-                        );
+        $query = sprintf(
+            "REPLACE INTO %s (userdata, cachedata, expires, id, cachegroup) VALUES ('%s', '%s', %d, '%s', '%s')",
+            $this->cache_table,
+            addslashes($userdata),
+            addslashes($this->encode($data)),
+            $this->getExpiresAbsolute($expires),
+            addslashes($id),
+            addslashes($group)
+        );
 
         $res = $this->db->query($query);
 
         if (PEAR::isError($res)) {
-            return new Cache_Error('DB::query failed: ' . DB::errorMessage($res) , __FILE__, __LINE__);
+            return new Cache_Error('DB::query failed: ' . DB::errorMessage($res), __FILE__, __LINE__);
         }
     }
 
@@ -161,11 +163,12 @@ class Cache_Container_db extends Cache_Container
     {
         $this->flushPreload($id, $group);
 
-        $query = sprintf("DELETE FROM %s WHERE id = '%s' and cachegroup = '%s'",
-                         $this->cache_table,
-                         addslashes($id),
-                         addslashes($group)
-                        );
+        $query = sprintf(
+            "DELETE FROM %s WHERE id = '%s' and cachegroup = '%s'",
+            $this->cache_table,
+            addslashes($id),
+            addslashes($group)
+        );
 
         $res = $this->db->query($query);
 
@@ -178,7 +181,7 @@ class Cache_Container_db extends Cache_Container
     {
         $this->flushPreload();
 
-         if ($group) {
+        if ($group) {
             $query = sprintf("DELETE FROM %s WHERE cachegroup = '%s'", $this->cache_table, addslashes($group));
         } else {
             $query = sprintf("DELETE FROM %s", $this->cache_table);
@@ -186,17 +189,19 @@ class Cache_Container_db extends Cache_Container
 
         $res = $this->db->query($query);
 
-        if (PEAR::isError($res))
+        if (PEAR::isError($res)) {
             return new Cache_Error('DB::query failed: ' . DB::errorMessage($res), __FILE__, __LINE__);
+        }
     }
 
     function idExists($id, $group)
     {
-        $query = sprintf("SELECT id FROM %s WHERE ID = '%s' AND cachegroup = '%s'",
-                         $this->cache_table,
-                         addslashes($id),
-                         addslashes($group)
-                        );
+        $query = sprintf(
+            "SELECT id FROM %s WHERE ID = '%s' AND cachegroup = '%s'",
+            $this->cache_table,
+            addslashes($id),
+            addslashes($group)
+        );
 
         $res = $this->db->query($query);
 
@@ -215,17 +220,19 @@ class Cache_Container_db extends Cache_Container
     {
         $this->flushPreload();
 
-        $query = sprintf('DELETE FROM %s WHERE (expires <= %d AND expires > 0) OR changed <= %d',
-                         $this->cache_table,
-                         time(),
-                         time() - $maxlifetime
-                       );
+        $query = sprintf(
+            'DELETE FROM %s WHERE (expires <= %d AND expires > 0) OR changed <= %d',
+            $this->cache_table,
+            time(),
+            time() - $maxlifetime
+        );
 
         $res = $this->db->query($query);
 
-        $query = sprintf('select sum(length(cachedata)) as CacheSize from %s',
-                         $this->cache_table
-                       );
+        $query = sprintf(
+            'select sum(length(cachedata)) as CacheSize from %s',
+            $this->cache_table
+        );
         $cachesize = $this->db->GetOne($query);
         if (PEAR::isError($cachesize)) {
             return new Cache_Error('DB::query failed: ' . DB::errorMessage($cachesize), __FILE__, __LINE__);
@@ -234,9 +241,10 @@ class Cache_Container_db extends Cache_Container
         //if cache is to big.
         if ($cachesize > $this->highwater) {
             //find the lowwater mark.
-            $query = sprintf('select length(cachedata) as size, changed from %s order by changed DESC',
-                                     $this->cache_table
-                       );
+            $query = sprintf(
+                'select length(cachedata) as size, changed from %s order by changed DESC',
+                $this->cache_table
+            );
             $res = $this->db->query($query);
             if (PEAR::isError($res)) {
                 return new Cache_Error('DB::query failed: ' . DB::errorMessage($res), __FILE__, __LINE__);
@@ -250,9 +258,10 @@ class Cache_Container_db extends Cache_Container
             }
 
             //delete all entries, which were changed before the "lowwwater mark"
-            $query = sprintf('delete from %s where changed <= '.($entry['changed'] ? $entry['changed'] : 0),
-                                     $this->cache_table
-                                   );
+            $query = sprintf(
+                'delete from %s where changed <= '.($entry['changed'] ? $entry['changed'] : 0),
+                $this->cache_table
+            );
             $res = $this->db->query($query);
         }
 

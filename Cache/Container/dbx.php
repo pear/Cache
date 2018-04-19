@@ -21,95 +21,95 @@
 require_once 'Cache/Container.php';
 
 /**
-* ext/dbx Cache Container.
-*
-* WARNING: Other systems might or might not support certain datatypes of 
-* the tables shown. As far as I know there's no large binary 
-* type in SQL-92 or SQL-99. Postgres seems to lack any 
-* BLOB or TEXT type, for MS-SQL you could use IMAGE, don't know 
-* about other databases. Please add sugestions for other databases to 
-* the inline docs.
-*
-* The field 'changed' has no meaning for the Cache itself. It's just there 
-* because it's a good idea to have an automatically updated timestamp
-* field for debugging in all of your tables.
-*
-* For _MySQL_ you need this DB table:
-*
-* CREATE TABLE cache (
-*   id          CHAR(32) NOT null DEFAULT '',
-*   cachegroup  VARCHAR(127) NOT null DEFAULT '',
-*   cachedata   BLOB NOT null DEFAULT '',
-*   userdata    VARCHAR(255) NOT null DEFAULT '',
-*   expires     INT(9) NOT null DEFAULT 0,
-*  
-*   changed     TIMESTAMP(14) NOT null,
-*  
-*   INDEX (expires),
-*   PRIMARY KEY (id, cachegroup)
-* )
-*
-* @author   Christian Stocker <chregu@phant.ch>
-* @version  $Id$
-* @package  Cache
-*/
+ * ext/dbx Cache Container.
+ *
+ * WARNING: Other systems might or might not support certain datatypes of
+ * the tables shown. As far as I know there's no large binary
+ * type in SQL-92 or SQL-99. Postgres seems to lack any
+ * BLOB or TEXT type, for MS-SQL you could use IMAGE, don't know
+ * about other databases. Please add sugestions for other databases to
+ * the inline docs.
+ *
+ * The field 'changed' has no meaning for the Cache itself. It's just there
+ * because it's a good idea to have an automatically updated timestamp
+ * field for debugging in all of your tables.
+ *
+ * For _MySQL_ you need this DB table:
+ *
+ * CREATE TABLE cache (
+ *   id          CHAR(32) NOT null DEFAULT '',
+ *   cachegroup  VARCHAR(127) NOT null DEFAULT '',
+ *   cachedata   BLOB NOT null DEFAULT '',
+ *   userdata    VARCHAR(255) NOT null DEFAULT '',
+ *   expires     INT(9) NOT null DEFAULT 0,
+ *
+ *   changed     TIMESTAMP(14) NOT null,
+ *
+ *   INDEX (expires),
+ *   PRIMARY KEY (id, cachegroup)
+ * )
+ *
+ * @author  Christian Stocker <chregu@phant.ch>
+ * @version $Id$
+ * @package Cache
+ */
 class Cache_Container_dbx extends Cache_Container
 {
 
     /**
-    * Name of the DB table to store caching data
-    * 
-    * @see  Cache_Container_file::$filename_prefix
-    */  
+     * Name of the DB table to store caching data
+     *
+     * @see Cache_Container_file::$filename_prefix
+     */
     var $cache_table = '';
 
     /**
-    * DBx module to use
-    *
-    *  at the moment only mysql or odbc
-    * 
-    * @var  string
-    */
+     * DBx module to use
+     *
+     *  at the moment only mysql or odbc
+     *
+     * @var string
+     */
     var $module = '';
 
     /**
-    * DB host to use
-    * 
-    * @var  string
-    */
+     * DB host to use
+     *
+     * @var string
+     */
     var $host = '';
 
     /**
-    * DB database to use
-    * 
-    * @var  string
-    */
+     * DB database to use
+     *
+     * @var string
+     */
     var $db = '';
 
     /**
-    * DB username to use
-    * 
-    * @var  string
-    */
+     * DB username to use
+     *
+     * @var string
+     */
     var $username = '';
 
     /**
-    * DB password to use
-    * 
-    * @var  string
-    */
+     * DB password to use
+     *
+     * @var string
+     */
     var $password = '';
-    
-    
-    /**
-    * Establish a persistent connection?
-    * 
-    * @var  boolean 
-    */
-    var $persistent = true;
-    
 
-    function Cache_Container_dbx($options)
+
+    /**
+     * Establish a persistent connection?
+     *
+     * @var boolean
+     */
+    var $persistent = true;
+
+
+    function __construct($options)
     {
         $this->setAllowedOptions(
             array(
@@ -135,11 +135,12 @@ class Cache_Container_dbx extends Cache_Container
 
     function fetch($id, $group)
     {
-        $query = sprintf("SELECT cachedata, userdata, expires FROM %s WHERE id = '%s' AND cachegroup = '%s'",
-                         $this->cache_table,
-                         addslashes($id),
-                         addslashes($group)
-                        );
+        $query = sprintf(
+            "SELECT cachedata, userdata, expires FROM %s WHERE id = '%s' AND cachegroup = '%s'",
+            $this->cache_table,
+            addslashes($id),
+            addslashes($group)
+        );
 
         $res = dbx_query($this->db, $query);
         if (dbx_error($this->db)) {
@@ -152,45 +153,47 @@ class Cache_Container_dbx extends Cache_Container
         } else {
             $data = array(null, null, null);
         }
-        // last used required by the garbage collection   
-        // WARNING: might be MySQL specific         
-        $query = sprintf("UPDATE %s SET changed = (NOW() + 0) WHERE id = '%s' AND cachegroup = '%s'",
-                            $this->cache_table,
-                            addslashes($id),
-                            addslashes($group)
-                          );
-        
+        // last used required by the garbage collection
+        // WARNING: might be MySQL specific
+        $query = sprintf(
+            "UPDATE %s SET changed = (NOW() + 0) WHERE id = '%s' AND cachegroup = '%s'",
+            $this->cache_table,
+            addslashes($id),
+            addslashes($group)
+        );
+
         $res = dbx_query($this->db, $query);
         if (dbx_error($this->db)) {
-            return new Cache_Error('DBx query failed: ' . dbx_error($this->db), __FILE__, __LINE__);                             
+            return new Cache_Error('DBx query failed: ' . dbx_error($this->db), __FILE__, __LINE__);
         }
-        return $data;            
+        return $data;
     }
 
     /**
-    * Stores a dataset.
-    * 
-    * WARNING: we use the SQL command REPLACE INTO this might be 
-    * MySQL specific. As MySQL is very popular the method should
-    * work fine for 95% of you.
-    */
+     * Stores a dataset.
+     *
+     * WARNING: we use the SQL command REPLACE INTO this might be
+     * MySQL specific. As MySQL is very popular the method should
+     * work fine for 95% of you.
+     */
     function save($id, $data, $expires, $group, $userdata)
     {
         $this->flushPreload($id, $group);
 
-        $query = sprintf("REPLACE INTO %s (userdata, cachedata, expires, id, cachegroup) VALUES ('%s', '%s', %d, '%s', '%s')",
-                         $this->cache_table,
-                         addslashes($userdata),
-                         addslashes($this->encode($data)),
-                         $this->getExpiresAbsolute($expires) ,
-                         addslashes($id),
-                         addslashes($group)
-                        );
+        $query = sprintf(
+            "REPLACE INTO %s (userdata, cachedata, expires, id, cachegroup) VALUES ('%s', '%s', %d, '%s', '%s')",
+            $this->cache_table,
+            addslashes($userdata),
+            addslashes($this->encode($data)),
+            $this->getExpiresAbsolute($expires),
+            addslashes($id),
+            addslashes($group)
+        );
 
         $res = dbx_query($this->db, $query);
 
         if (dbx_error($this->db)) {
-            return new Cache_Error('DBx query failed: ' . dbx_error($this->db) , __FILE__, __LINE__);
+            return new Cache_Error('DBx query failed: ' . dbx_error($this->db), __FILE__, __LINE__);
         }
     }
 
@@ -198,11 +201,12 @@ class Cache_Container_dbx extends Cache_Container
     {
         $this->flushPreload($id, $group);
 
-        $query = sprintf("DELETE FROM %s WHERE id = '%s' and cachegroup = '%s'",
-                         $this->cache_table,
-                         addslashes($id),
-                         addslashes($group)
-                        );
+        $query = sprintf(
+            "DELETE FROM %s WHERE id = '%s' and cachegroup = '%s'",
+            $this->cache_table,
+            addslashes($id),
+            addslashes($group)
+        );
 
         $res = dbx_query($this->db, $query);
 
@@ -221,7 +225,7 @@ class Cache_Container_dbx extends Cache_Container
             $query = sprintf("DELETE FROM %s", $this->cache_table);
         }
 
-        $res = dbx_query($this->db,$query);
+        $res = dbx_query($this->db, $query);
 
         if (dbx_error($this->db)) {
             return new Cache_Error('DBx query failed: ' . dbx_error($this->db), __FILE__, __LINE__);
@@ -230,11 +234,12 @@ class Cache_Container_dbx extends Cache_Container
 
     function idExists($id, $group)
     {
-        $query = sprintf("SELECT id FROM %s WHERE ID = '%s' AND cachegroup = '%s'",
-                         $this->cache_table,
-                         addslashes($id),
-                         addslashes($group)
-                        );
+        $query = sprintf(
+            "SELECT id FROM %s WHERE ID = '%s' AND cachegroup = '%s'",
+            $this->cache_table,
+            addslashes($id),
+            addslashes($group)
+        );
 
         $res = dbx_query($this->db, $query);
 
@@ -253,12 +258,13 @@ class Cache_Container_dbx extends Cache_Container
     function garbageCollection($maxlifetime)
     {
         $this->flushPreload();
-        
-        $query = sprintf('DELETE FROM %s WHERE (expires <= %d AND expires > 0) OR changed <= (NOW() - %d)',
-                         $this->cache_table,
-                         time(),
-                         $maxlifetime
-                       );
+
+        $query = sprintf(
+            'DELETE FROM %s WHERE (expires <= %d AND expires > 0) OR changed <= (NOW() - %d)',
+            $this->cache_table,
+            time(),
+            $maxlifetime
+        );
 
 
         $res = dbx_query($this->db, $query);
@@ -266,17 +272,19 @@ class Cache_Container_dbx extends Cache_Container
         if (dbx_error($this->db)) {
             return new Cache_Error('DBx query failed: ' . dbx_error($this->db), __FILE__, __LINE__);
         }
-        $query = sprintf('select sum(length(cachedata)) as CacheSize from %s',
-                         $this->cache_table
-                       );
+        $query = sprintf(
+            'select sum(length(cachedata)) as CacheSize from %s',
+            $this->cache_table
+        );
 
         $res = dbx_query($this->db, $query);
         //if cache is to big.
         if ($res->data[0][CacheSize] > $this->highwater) {
             //find the lowwater mark.
-            $query = sprintf('select length(cachedata) as size, changed from %s order by changed DESC',
-                                     $this->cache_table
-                       );
+            $query = sprintf(
+                'select length(cachedata) as size, changed from %s order by changed DESC',
+                $this->cache_table
+            );
 
             $res = dbx_query($this->db, $query);
             $keep_size = 0;
@@ -285,12 +293,13 @@ class Cache_Container_dbx extends Cache_Container
                 $keep_size += $res->data[$i][size];
                 $i++;
             }
-    
+
             //delete all entries, which were changed before the "lowwwater mark"
-            $query = sprintf('delete from %s where changed <= %s',
-                                     $this->cache_table,
-                                     $res->data[$i][changed]
-                                   );
+            $query = sprintf(
+                'delete from %s where changed <= %s',
+                $this->cache_table,
+                $res->data[$i][changed]
+            );
             $res = dbx_query($this->db, $query);
         }
     }

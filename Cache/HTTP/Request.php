@@ -27,38 +27,38 @@ define('CACHE_HTTP_REQUEST_RETURN_FALSE', 2);
 define('CACHE_HTTP_REQUEST_RETURN_PEAR_ERROR', 3);
 
 /**
-* HTTP_Request Cache
-*
-* The classical example is :
-*
-* You want to get news from another site through RSS remote files. But you
-* don't want to access to to the remote site at every time you display
-* its news on your site. Because, if the remote site is down or slow...
-* So you you need a class which makes a local cache copy of the remote file.
-* Every x hours, the cache is updated. But if the remote site is down, the
-* local cache copy is keeped (you can also get error messages if you want).
-*
-* So you need this class!
-*
-* Cache_HTTP_Request inherits from Cache and use HTTP_Request to access to
-* the remote file.
-*
-* Usage example :
-*
-* <?php
-* require_once('Cache/HTTP_Request.php');
-*
-* $cache = &new Cache_HTTP_Request('http://www.php.net', null, 'file', null, 3600);
-* $cache->sendRequest();
-* $remoteFileBody = $cache->getResponseBody();
-*
-* (...)
-* ?>
-*
-* @author   Fabien MARTY <fabien.marty@free.fr>
-* @version  $Id$
-* @package  Cache
-*/
+ * HTTP_Request Cache
+ *
+ * The classical example is :
+ *
+ * You want to get news from another site through RSS remote files. But you
+ * don't want to access to to the remote site at every time you display
+ * its news on your site. Because, if the remote site is down or slow...
+ * So you you need a class which makes a local cache copy of the remote file.
+ * Every x hours, the cache is updated. But if the remote site is down, the
+ * local cache copy is keeped (you can also get error messages if you want).
+ *
+ * So you need this class!
+ *
+ * Cache_HTTP_Request inherits from Cache and use HTTP_Request to access to
+ * the remote file.
+ *
+ * Usage example :
+ *
+ * <?php
+ * require_once('Cache/HTTP_Request.php');
+ *
+ * $cache = &new Cache_HTTP_Request('http://www.php.net', null, 'file', null, 3600);
+ * $cache->sendRequest();
+ * $remoteFileBody = $cache->getResponseBody();
+ *
+ * (...)
+ * ?>
+ *
+ * @author  Fabien MARTY <fabien.marty@free.fr>
+ * @version $Id$
+ * @package Cache
+ */
 
 class Cache_HTTP_Request extends Cache
 {
@@ -66,72 +66,73 @@ class Cache_HTTP_Request extends Cache
     // --- Private properties ---
 
     /**
-    * Lifetime in seconds (0 endless)
-    *
-    * @var int $_expires
-    */
+     * Lifetime in seconds (0 endless)
+     *
+     * @var int $_expires
+     */
     var $_expires;
 
     /**
-    * HTTP Request
-    *
-    * @var object $_request
-    */
+     * HTTP Request
+     *
+     * @var object $_request
+     */
     var $_request;
 
     /**
-    * Cache id for the classic cache file
-    *
-    * @see sendRequest()
-    * @var string $_id
-    */
+     * Cache id for the classic cache file
+     *
+     * @see sendRequest()
+     * @var string $_id
+     */
     var $_id;
 
     /**
-    * Cache id for the endless cache file
-    *
-    * @see sendRequest()
-    * @var string $_id
-    */
+     * Cache id for the endless cache file
+     *
+     * @see sendRequest()
+     * @var string $_id
+     */
     var $_id2;
 
     /**
-    * Data to use
-    *
-    * @see getReponseBody(), getReponseHeader(), getReponseCode()
-    * @var array $_data
-    */
+     * Data to use
+     *
+     * @see getReponseBody(), getReponseHeader(), getReponseCode()
+     * @var array $_data
+     */
     var $_data ;
 
     // --- Public methods ---
 
     /**
-    * Constructor
-    *
-    * @param $url The url to access
-    * @param $params Associative array of parameters which can be:
-    *                  method     - Method to use, GET, POST etc
-    *                  http       - HTTP Version to use, 1.0 or 1.1
-    *                  user       - Basic Auth username
-    *                  pass       - Basic Auth password
-    *                  proxy_host - Proxy server host
-    *                  proxy_port - Proxy server port
-    *                  proxy_user - Proxy auth username
-    *                  proxy_pass - Proxy auth password
-    * @param string $container Name of container class
-    * @param array $containerOptions Array with container class options
-    * @param int $mode What to do when the remote server is down :
-    *                   CACHE_HTTP_REQUEST_KEEP_LOCAL_COPY or
-    *                   CACHE_HTTP_REQUEST_RETURN_FALSE or
-    *                   CACHE_HTTP_REQUEST_RETURN_PEAR_ERROR
-    * @param int $expires lifetime of the cached data in seconds - 0 for endless
-    * @see Cache, HTTP_Request
-    * @access public
-    */
-    function Cache_HTTP_Request($url, $params = null, $container  = 'file',
-                                $containerOptions = null, $expires = 3600,
-                                $mode = CACHE_HTTP_REQUEST_KEEP_LOCAL_COPY)
-    {
+     * Constructor
+     *
+     * @param $url The url to access
+     * @param $params Associative array of parameters which can be:
+     *                  method     - Method to use, GET, POST etc
+     *                  http       - HTTP Version to use, 1.0 or 1.1
+     *                  user       - Basic Auth username
+     *                  pass       - Basic Auth password
+     *                  proxy_host - Proxy server host
+     *                  proxy_port - Proxy server port
+     *                  proxy_user - Proxy auth username
+     *                  proxy_pass - Proxy auth password
+     * @param string                                               $container        Name of container class
+     * @param array                                                $containerOptions Array with container class options
+     * @param int                                                  $mode             What to do when the remote server is down :
+     *                                                                               CACHE_HTTP_REQUEST_KEEP_LOCAL_COPY or
+     *                                                                               CACHE_HTTP_REQUEST_RETURN_FALSE or
+     *                                                                               CACHE_HTTP_REQUEST_RETURN_PEAR_ERROR
+     *
+     * @param  int                                                  $expires          lifetime of the cached data in seconds - 0 for endless
+     * @see    Cache, HTTP_Request
+     * @access public
+     */
+    function __construct($url, $params = null, $container  = 'file',
+        $containerOptions = null, $expires = 3600,
+        $mode = CACHE_HTTP_REQUEST_KEEP_LOCAL_COPY
+    ) {
         if (!isset($params)) {
             $params = array();
         }
@@ -143,7 +144,7 @@ class Cache_HTTP_Request extends Cache
             );
         }
         $this->Cache($container, $containerOptions);
-        $this->_request = &new HTTP_Request($url, $params);
+        $this->_request = new HTTP_Request($url, $params);
         $this->_id = md5($url.serialize($params));
         $this->_id2 = md5($this->_id); // we need two keys
         $this->_mode = $mode;
@@ -151,46 +152,46 @@ class Cache_HTTP_Request extends Cache
     }
 
     /**
-    * Deconstructor
-    *
-    * @access public
-    */
+     * Deconstructor
+     *
+     * @access public
+     */
     function _Cache_HTTP_Request()
     {
         $this->_Cache();
     }
 
     /**
-    * Get and return the response body (null if no data available)
-    *
-    * @see sendRequest()
-    * @return mixed response body
-    * @access public
-    */
+     * Get and return the response body (null if no data available)
+     *
+     * @see    sendRequest()
+     * @return mixed response body
+     * @access public
+     */
     function getResponseBody()
     {
         return $this->_data['body'];
     }
 
     /**
-    * Get and return the response code (null if no data available)
-    *
-    * @see sendRequest()
-    * @return mixed response code
-    * @access public
-    */
+     * Get and return the response code (null if no data available)
+     *
+     * @see    sendRequest()
+     * @return mixed response code
+     * @access public
+     */
     function getResponseCode()
     {
         return $this->_data['code'];
     }
 
     /**
-    * Get and return the response header (null if no data available)
-    *
-    * @see sendRequest()
-    * @return mixed response header
-    * @access public
-    */
+     * Get and return the response header (null if no data available)
+     *
+     * @see    sendRequest()
+     * @return mixed response header
+     * @access public
+     */
     function getResponseHeader()
     {
         return $this->_data['header'];
@@ -198,40 +199,40 @@ class Cache_HTTP_Request extends Cache
 
 
     /**
-    * Set a new mode when the server is down
-    *
-    * @param int $newMode What to do when the remote server is down :
-    *                      CACHE_HTTP_REQUEST_KEEP_LOCAL_COPY or
-    *                      CACHE_HTTP_REQUEST_RETURN_FALSE or
-    *                      CACHE_HTTP_REQUEST_RETURN_PEAR_ERROR
-    * @access public
-    */
+     * Set a new mode when the server is down
+     *
+     * @param  int $newMode What to do when the remote server is down :
+     *                      CACHE_HTTP_REQUEST_KEEP_LOCAL_COPY or
+     *                      CACHE_HTTP_REQUEST_RETURN_FALSE or
+     *                      CACHE_HTTP_REQUEST_RETURN_PEAR_ERROR
+     * @access public
+     */
     function setMode($newMode)
     {
         $this->_mode = $newMode;
     }
 
     /**
-    * Send the HTTP request or use the cache system
-    *
-    * If there is a cache file for this HTTP request, the request is not re-sent.
-    * Cached response is used. Yet, if the cache is expired, the HTTP request
-    * is re-sent. Then, if the remote server is down, this method will return :
-    * (depending on the selected mode)
-    * - false or
-    * - a PEAR_Error or (better)
-    * - true and the local copy of the latest valid response will be used.
-    *
-    * (technical)
-    * For the last choice, there is a technical tips.
-    * Indeed, there are two cache files. The first one (id key) is a classical one
-    * with the given lifetime. But it can be removed by automatic garbage collection
-    * for example. So to be able to use the latest valid response (when the remote
-    * server is dead), we make a second cache file with no lifetime (id2 key).
-    *
-    * @return mixed true or false or a PEAR_ERROR
-    * @access public
-    */
+     * Send the HTTP request or use the cache system
+     *
+     * If there is a cache file for this HTTP request, the request is not re-sent.
+     * Cached response is used. Yet, if the cache is expired, the HTTP request
+     * is re-sent. Then, if the remote server is down, this method will return :
+     * (depending on the selected mode)
+     * - false or
+     * - a PEAR_Error or (better)
+     * - true and the local copy of the latest valid response will be used.
+     *
+     * (technical)
+     * For the last choice, there is a technical tips.
+     * Indeed, there are two cache files. The first one (id key) is a classical one
+     * with the given lifetime. But it can be removed by automatic garbage collection
+     * for example. So to be able to use the latest valid response (when the remote
+     * server is dead), we make a second cache file with no lifetime (id2 key).
+     *
+     * @return mixed true or false or a PEAR_ERROR
+     * @access public
+     */
     function sendRequest()
     {
         if ($data = $this->get($this->_id, CACHE_HTTP_REQUEST_GROUP_NAME)) {
@@ -275,12 +276,12 @@ class Cache_HTTP_Request extends Cache
     // --- Private Methods ---
 
     /**
-    * Send HTTP request and get the response
-    *
-    * @return boolean success or not ?
-    * @see HTTP_Request
-    * @access private
-    */
+     * Send HTTP request and get the response
+     *
+     * @return boolean success or not ?
+     * @see    HTTP_Request
+     * @access private
+     */
     function _sendRequestAndGetResponse()
     {
         $this->_request->sendRequest();

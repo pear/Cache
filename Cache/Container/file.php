@@ -120,7 +120,8 @@ class Cache_Container_file extends Cache_Container
             }
 
             if  (!file_exists($this->cache_dir) || !is_dir($this->cache_dir)) {
-                mkdir($this->cache_dir, 0755);
+                // Bug #15902. mkdir recursively.
+                mkdir($this->cache_dir, 0755, true);
             }
         }
         $this->entries = array();

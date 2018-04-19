@@ -21,104 +21,104 @@
 require_once 'Cache/Container.php';
 
 /**
-* Stores cache data into shared memory.
-*
-* Well, this is not a very efficient implementation. Indeed it's much 
-* slower than the file container as far as my tests showed. Files are 
-* cached by most operating systems and it will be hard to write a faster 
-* caching algorithm using PHP.
-*
-* @author   Ulf Wendel <ulf.wendel@phpdoc.de>
-* @version  $Id$
-* @package  Cache
-*/
+ * Stores cache data into shared memory.
+ *
+ * Well, this is not a very efficient implementation. Indeed it's much
+ * slower than the file container as far as my tests showed. Files are
+ * cached by most operating systems and it will be hard to write a faster
+ * caching algorithm using PHP.
+ *
+ * @author  Ulf Wendel <ulf.wendel@phpdoc.de>
+ * @version $Id$
+ * @package Cache
+ */
 class Cache_Container_shm extends Cache_Container
 {
     /**
-    * Key of the semaphore used to sync the SHM access
-    * 
-    * @var  int
-    */
+     * Key of the semaphore used to sync the SHM access
+     *
+     * @var int
+     */
     var $sem_key = null;
 
     /**
-    * Permissions of the semaphore used to sync the SHM access
-    * 
-    * @var  int
-    */
+     * Permissions of the semaphore used to sync the SHM access
+     *
+     * @var int
+     */
     var $sem_perm = 0644;
 
     /**
-    * Semaphore handler
-    * 
-    * @var  resource
-    */
+     * Semaphore handler
+     *
+     * @var resource
+     */
     var $sem_id = null;
 
     /**
-    * Key of the shared memory block used to store cache data
-    *
-    * @var  int
-    */
+     * Key of the shared memory block used to store cache data
+     *
+     * @var int
+     */
     var $shm_key = null;
 
     /**
-    * Size of the shared memory block used
-    * 
-    * Note: the container does only use _one_ shm block no more!
-    * 
-    * @var  int
-    */        
+     * Size of the shared memory block used
+     *
+     * Note: the container does only use _one_ shm block no more!
+     *
+     * @var int
+     */
     var $shm_size = 131072;
 
     /**
-    * Permissions of the shared memory block
-    * 
-    * @var  int
-    */
+     * Permissions of the shared memory block
+     *
+     * @var int
+     */
     var $shm_perm = 0644;
 
     /**
-    * Shared memory handler
-    * 
-    * @var resource
-    */
+     * Shared memory handler
+     *
+     * @var resource
+     */
     var $shm_id = null;
 
     /**
-    * Hash of cache entries
-    * 
-    * Used by the garbage collection to find old entries.
-    *
-    * @var  array
-    */
+     * Hash of cache entries
+     *
+     * Used by the garbage collection to find old entries.
+     *
+     * @var array
+     */
     var $entries = array();
 
     /**
-    * Number of bytes consumed by the cache
-    * 
-    * @var  int
-    */
+     * Number of bytes consumed by the cache
+     *
+     * @var int
+     */
     var $total_size = 0;
 
     /**
-    * Creates a shared memory container
-    *
-    * @param array    shm_key, sem_key, shm_size, sem_perm, shm_perm
-    */    
-    function Cache_Container_shm($options = null)
+     * Creates a shared memory container
+     *
+     * @param array    shm_key, sem_key, shm_size, sem_perm, shm_perm
+     */
+    function __construct($options = null)
     {
         $this->setAllowedOptions(
-            array('shm_key',  'sem_key', 
+            array('shm_key',  'sem_key',
                   'shm_size', 'sem_perm',
                   'shm_perm'
                  )
         );
-        $this->setOptions($options)
+        $this->setOptions($options);
 
         // Cache::Container high- and lowwater defaults should be overridden if
         // not already done by the user
-        if (!$this->hasBeenSet('highwater')) { 
+        if (!$this->hasBeenSet('highwater')) {
             $this->highwater = round(0.75 * 131072);
         }
         if (!$this->hasBeenSet('lowwater')) {
@@ -129,16 +129,18 @@ class Cache_Container_shm extends Cache_Container
         }
         //get SHM and Semaphore handles
         if (!($this->shm_id = shmop_open($this->shm_key, 'c', $this->shm_perm, $this->shm_size))) {
-            new Cache_Error("Can't open SHM segment '{$this->shm_key}', size '{$this->shm_size}'.",
-                            __FILE__,
-                            __LINE__
-                           );
+            new Cache_Error(
+                "Can't open SHM segment '{$this->shm_key}', size '{$this->shm_size}'.",
+                __FILE__,
+                __LINE__
+            );
         }
         if (!($this->sem_id = sem_get($this->sem_key, 1, $this->sem_perm))) {
-            new Cache_Error("Can't get semaphore '{$this->sem_key}' using perms '{$this->sem_perm}'.",
-                            __FILE__,
-                            __LINE__
-                           );
+            new Cache_Error(
+                "Can't get semaphore '{$this->sem_key}' using perms '{$this->sem_perm}'.",
+                __FILE__,
+                __LINE__
+            );
         }
     } // end constructor
 
@@ -251,7 +253,7 @@ class Cache_Container_shm extends Cache_Container
         $this->entries = array();
         $this->total_size = 0;
 
-        return $cachedata;           
+        return $cachedata;
     } // end func garbageCollection
 
     function doGarbageCollection($maxlifetime, &$cachedata)
